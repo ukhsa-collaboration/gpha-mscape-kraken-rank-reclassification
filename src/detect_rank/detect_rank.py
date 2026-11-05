@@ -68,10 +68,20 @@ def run_detection(sample_id: str, report_path: str, database_path: str, family:s
     #                   Family=Families,
     #                   choice=family)
     # print(df1)
-    df = search_rank(df=df,
-                     rank="Genus")
+    df_genus_level_detection = search_rank(df=df,
+                                           rank="Genus")
     
-    df2 = which_family(df=df,
-                       choice=family,
-                       tp_func=tp_func)
-    print(df2)
+    df_genus_level_detection = which_family(df=df_genus_level_detection,
+                                            choice=family,
+                                            tp_func=tp_func)
+    
+    df_species_level_detection = search_rank(df=df,
+                                             rank="Species")
+    
+    df_species_level_detection = which_family(df=df_species_level_detection,
+                                              choice=family,
+                                              tp_func=tp_func)
+    
+    print(df_genus_level_detection)
+    print(df_species_level_detection)
+    
