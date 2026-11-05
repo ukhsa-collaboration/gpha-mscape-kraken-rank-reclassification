@@ -32,7 +32,8 @@ def detect_rank_commands(
     run_detection(sample_id=sample_id,
                   report_path=report,
                   database_path=database,
-                  family=family)
+                  family=family,
+                  tp_func=tp_func)
 
 
 def validate_family(family:str, taxaPlease):
