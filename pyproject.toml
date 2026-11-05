@@ -5,7 +5,7 @@ description = "mSCAPE, Kraken2 classification for x rank with ONYX integration"
 authors = [{name = "Mike Brown", email = "michael.d.brown@ukhsa.gov.uk"}]
 requires-python = ">=3.12"
 # Pin versions of possibly unstable dependencies or packages (especially internal)
-dependencies = ["pandas", "pyyaml", "climb-onyx-client"]  
+dependencies = ["pandas", "pyyaml", "climb-onyx-client", "typer"]  
 
 [tool.setuptools.dynamic]
 version = {attr = "detect_rank.detect_rank.__version__"} # Add package name here to get version
