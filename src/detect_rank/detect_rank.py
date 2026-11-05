@@ -72,7 +72,7 @@ def create_json(sample_id:str, df_genus: pd.DataFrame, df_species: pd.DataFrame,
         "species": ', '.join(df_species["name"].str.strip()),
         "species_taxids": ', '.join(df_species["taxid"].astype(str)),
     }
-    outfile = Path(f"{outdir}/{id}_data.json")
+    outfile = Path(f"{outdir}/{sample_id}_data.json")
     outfile.write_text(json.dumps(json_setup), encoding="utf-8")
 
 
