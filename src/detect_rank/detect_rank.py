@@ -44,8 +44,8 @@ def which_family(df: pd.DataFrame, database_path: str, Family: list, choice: str
     """initiate TaxaPlease and use isVirus function (->bool) to determine if taxids found are listed as viruses in NCBI database."""
     taxaPlease = TaxaPlease(database=database_path)
     func = {
-        rank: getattr(taxaPlease, f"is{rank.capitalize()}")
-        for rank in ranks
+        Family: getattr(taxaPlease, f"is{choice.capitalize()}")
+        for Family in Families
         }
     df = df.assign(**{f"is_{choice}": df["taxid"].apply(lambda x: func[choice](x))})
     return df
