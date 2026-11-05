@@ -2,7 +2,7 @@ from pathlib import Path
 
 import typer
 
-from src.detect_rank.detect_rank import run_detection
+from detect_rank.detect_rank import run_detection
 
 app = typer.Typer(name="Kraken2 Detect Rank", help="Kraken2 output rank detection")
 
