@@ -22,6 +22,7 @@ def detect_rank_commands(
     outdir: str = typer.Option(..., help="Path to the output directory", exists=False)
     ):
     
+    Path(outdir).mkdir(parents=True, exist_ok=True)
     
     taxaPlease = TaxaPlease(database=database)
 
@@ -32,6 +33,7 @@ def detect_rank_commands(
                   report_path=report,
                   database_path=database,
                   family=family,
+                  outdir=outdir,
                   tp_func=tp_func)
 
 
