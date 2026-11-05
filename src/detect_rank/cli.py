@@ -18,7 +18,8 @@ def detect_rank_commands(
     
     run_detection(sample_id=sample_id,
                   report_path=report,
-                  database_path=database)
+                  database_path=database,
+                  family=family)
 
 
 if __name__ == "__main__":
