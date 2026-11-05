@@ -2,6 +2,8 @@ from pathlib import Path
 
 import typer
 
+from src.detect_rank.detect_rank import run_detection
+
 app = typer.Typer(name="Kraken2 Detect Rank", help="Kraken2 output rank detection")
 
 @app.command("detect-rank")
@@ -11,8 +13,8 @@ def detect_rank_commands(
     results: str = typer.Option(..., help="Path to Kraken2 results file", exists=True),
     database: str = typer.Option(..., help="Path to the TaxaPlease database", exists=True),
     outdir: str = typer.Option(..., help="Path to the output directory", exists=False)
-    ): 
-    pass
+    ):
+    run_detection()
 
 
 if __name__ == "__main__":

@@ -29,3 +29,8 @@ def search_rank(results_df: pd.DataFrame, rank: list) -> pd.DataFrame:
 
 def which_family(df: pd.DataFrame, database_path: str, Family: list) -> pd.DataFrame:
     pass
+
+
+def run_detection():
+    print("running")
+    pass
