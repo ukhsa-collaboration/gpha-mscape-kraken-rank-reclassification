@@ -17,6 +17,7 @@ Families = ["Archaea", "Bacteria", "Eukaryote", "Fungi", "Phage", "Virus"]
 
 # TODO. use TaxaPlease database to create the ranks and family lists. Therefore stay consistent with any updates
 
+
 def get_ranks():
     pass
 
@@ -52,12 +53,21 @@ def which_family(df: pd.DataFrame, database_path: str, Family: list, choice: str
     return df
 
 
-def run_detection(sample_id: str, report_path: str, database_path: str, family:str):
+def which_family2(df: pd.DataFrame, choice: str, tp_func) -> pd.DataFrame:
+    df = df.assign(**{f"is_{choice}": df["taxid"].apply(tp_func)})
+    return df
+
+
+def run_detection(sample_id: str, report_path: str, database_path: str, family:str, tp_func):
     print("running")
     df = load_report(report_path=report_path)
     
-    df = which_family(df=df,
+    df1 = which_family(df=df,
                       database_path=database_path,
                       Family=Families,
                       choice=family)
-    print(df)
+    print(df1)
+    df2 = which_family2(df=df,
+                        choice=family,
+                        tp_func=tp_func)
+    print(df2)
