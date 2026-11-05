@@ -15,12 +15,25 @@ ranks = ["Species", "Genus", "Family", "Order", "Kingdom", "Phylum"]
 Family = ["Archaea", "Bacteria", "Eukaryote", "Fungi", "Phage", "Virus"]
 
 
-def load_report(report_path: str) -> pd.DataFrame:
+# TODO. use TaxaPlease database to create the ranks and family lists. Therefore stay consistent with any updates
+
+def get_ranks():
     pass
+
+
+def get_families():
+    pass
+
+def load_report(report_path: str) -> pd.DataFrame:
+    columns = ["percent_coverage", "no_reads_covered", "no_reads_assigned", "rank", "taxid", "name"]
+    df = pd.read_csv(Path(report_path), sep="\t", names=columns)
+    return df
 
 
 def load_results(results_path: str) -> pd.DataFrame:
-    pass
+    columns = ["isClassified", "header", "taxid", "length", "kmer_map"]
+    df = pd.read_csv(Path(results_path), sep="\t", names=columns)
+    return df
 
 
 def search_rank(results_df: pd.DataFrame, rank: list) -> pd.DataFrame:
@@ -31,6 +44,7 @@ def which_family(df: pd.DataFrame, database_path: str, Family: list) -> pd.DataF
     pass
 
 
-def run_detection():
+def run_detection(sample_id: str, report_path: str, database_path: str):
     print("running")
+    df = load_report(report_path=report_path)
     pass

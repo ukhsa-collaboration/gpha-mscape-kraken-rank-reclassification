@@ -14,7 +14,10 @@ def detect_rank_commands(
     database: str = typer.Option(..., help="Path to the TaxaPlease database", exists=True),
     outdir: str = typer.Option(..., help="Path to the output directory", exists=False)
     ):
-    run_detection()
+    
+    run_detection(sample_id=sample_id,
+                  report_path=report,
+                  database_path=database)
 
 
 if __name__ == "__main__":
