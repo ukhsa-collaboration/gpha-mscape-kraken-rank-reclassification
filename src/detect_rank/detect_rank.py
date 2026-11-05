@@ -25,10 +25,6 @@ def get_families():
     pass
 
 
-def normalize_choice(value: str) -> str:
-    return value.strip().lower().capitalize()
-
-
 def load_report(report_path: str) -> pd.DataFrame:
     columns = ["percent_coverage", "no_reads_covered", "no_reads_assigned", "rank", "taxid", "name"]
     df = pd.read_csv(Path(report_path), sep="\t", names=columns)
@@ -60,7 +56,6 @@ def run_detection(sample_id: str, report_path: str, database_path: str, family:s
     print("running")
     df = load_report(report_path=report_path)
     
-    family = normalize_choice(family)
     df = which_family(df=df,
                       database_path=database_path,
                       Family=Families,
