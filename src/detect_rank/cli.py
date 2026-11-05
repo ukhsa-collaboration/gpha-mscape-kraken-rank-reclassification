@@ -11,6 +11,7 @@ def detect_rank_commands(
     sample_id: str = typer.Option(..., help="Sequence sample ID", exists=True),
     report: str = typer.Option(..., help="Path to Kraken2 reports file", exists=True),
     results: str = typer.Option(..., help="Path to Kraken2 results file", exists=True),
+    family: str = typer.Option(..., help="", exists=True),
     database: str = typer.Option(..., help="Path to the TaxaPlease database", exists=True),
     outdir: str = typer.Option(..., help="Path to the output directory", exists=False)
     ):

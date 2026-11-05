@@ -12,7 +12,7 @@ __version__ = "0.1.1"
 
 
 ranks = ["Species", "Genus", "Family", "Order", "Kingdom", "Phylum"]
-Family = ["Archaea", "Bacteria", "Eukaryote", "Fungi", "Phage", "Virus"]
+Families = ["Archaea", "Bacteria", "Eukaryote", "Fungi", "Phage", "Virus"]
 
 
 # TODO. use TaxaPlease database to create the ranks and family lists. Therefore stay consistent with any updates
@@ -40,11 +40,22 @@ def search_rank(results_df: pd.DataFrame, rank: list) -> pd.DataFrame:
     pass
 
 
-def which_family(df: pd.DataFrame, database_path: str, Family: list) -> pd.DataFrame:
-    pass
+def which_family(df: pd.DataFrame, database_path: str, Family: list, choice: str) -> pd.DataFrame:
+    """initiate TaxaPlease and use isVirus function (->bool) to determine if taxids found are listed as viruses in NCBI database."""
+    taxaPlease = TaxaPlease(database=database_path)
+    func = {
+        rank: getattr(taxaPlease, f"is{rank.capitalize()}")
+        for rank in ranks
+        }
+    df = df.assign(**{f"is_{choice}": df["taxid"].apply(lambda x: func[choice](x))})
+    return df
 
 
-def run_detection(sample_id: str, report_path: str, database_path: str):
+def run_detection(sample_id: str, report_path: str, database_path: str, family:str):
     print("running")
     df = load_report(report_path=report_path)
-    pass
+    df = which_family(df=df,
+                      database_path=database_path,
+                      Family=Families,
+                      choice=family)
+    print(df)
