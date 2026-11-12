@@ -3,7 +3,7 @@ from pathlib import Path
 import typer
 from taxaplease.taxaplease import TaxaPlease
 
-from detect_rank.detect_rank import run_detection
+from detect_rank.detect_rank import create_aggregate, run_detection
 
 app = typer.Typer(name="Kraken2 Detect Rank", help="Kraken2 output rank detection")
 
@@ -35,6 +35,8 @@ def detect_rank_commands(
                   family=family,
                   out_dir=out_dir,
                   tp_func=tp_func)
+    
+    create_aggregate()
 
 
 def validate_family(family:str, taxaPlease):
