@@ -72,11 +72,6 @@ def run_detection(sample_id: str, report_path: str, database_path: str, family:s
     print("running")
     df = load_report(report_path=report_path)
     
-    # df1 = which_family(df=df,
-    #                   database_path=database_path,
-    #                   Family=Families,
-    #                   choice=family)
-    # print(df1)
     df_genus_level_detection = search_rank(df=df,
                                            rank="Genus")
     
@@ -90,9 +85,7 @@ def run_detection(sample_id: str, report_path: str, database_path: str, family:s
     df_species_level_detection = which_family(df=df_species_level_detection,
                                               choice=family,
                                               tp_func=tp_func)
-    
-    print(df_genus_level_detection)
-    print(df_species_level_detection)
+
     create_json(sample_id=sample_id,
                 rank=family,
                 df_genus= df_genus_level_detection,
