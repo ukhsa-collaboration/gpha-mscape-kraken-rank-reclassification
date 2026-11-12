@@ -54,11 +54,11 @@ def check_presence(df:pd.DataFrame):
         return True
 
 
-def create_json(sample_id:str, df_genus: pd.DataFrame, df_species: pd.DataFrame, outdir: str): 
+def create_json(sample_id: str, rank: str, df_genus: pd.DataFrame, df_species: pd.DataFrame, outdir: str): 
     json_setup = {
         "climb_id": sample_id,
-        "virus_presence_genus": check_presence(df_genus),
-        "virus_presence_species": check_presence(df_species),
+        f"{rank}_presence_genus": check_presence(df_genus),
+        f"{rank}_presence_species": check_presence(df_species),
         "genus": ', '.join(df_genus["name"].str.strip()),
         "genus_taxids": ', '.join(df_genus["taxid"].astype(str)),
         "species": ', '.join(df_species["name"].str.strip()),
@@ -94,6 +94,7 @@ def run_detection(sample_id: str, report_path: str, database_path: str, family:s
     print(df_genus_level_detection)
     print(df_species_level_detection)
     create_json(sample_id=sample_id,
+                rank=family,
                 df_genus= df_genus_level_detection,
                 df_species=df_species_level_detection,
                 outdir=outdir)
