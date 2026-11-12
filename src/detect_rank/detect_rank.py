@@ -8,7 +8,7 @@ __version__ = "0.1.1"
 
 
 ranks = ["Species", "Genus", "Family", "Order", "Kingdom", "Phylum"]
-#Families = ["Archaea", "Bacteria", "Eukaryote", "Fungi", "Phage", "Virus"]
+# Families = ["Archaea", "Bacteria", "Eukaryote", "Fungi", "Phage", "Virus"]
 
 
 # TODO. use TaxaPlease database to create the ranks and family lists. Therefore stay consistent with any updates
@@ -39,19 +39,10 @@ def search_rank(df: pd.DataFrame, rank: ranks) -> pd.DataFrame:
     return df_rank
 
 
-# def which_family(df: pd.DataFrame, database_path: str, Family: list, choice: str) -> pd.DataFrame:
-#     """initiate TaxaPlease and use isVirus function (->bool) to determine if taxids found are listed as viruses in NCBI database."""
-#     taxaPlease = TaxaPlease(database=database_path)
-#     func = {
-#         Family: getattr(taxaPlease, f"is{choice.capitalize()}")
-#         for Family in Families
-#         }
-#     df = df.assign(**{f"is_{choice}": df["taxid"].apply(lambda x: func[choice](x))})
-#     return df
-
-
 def which_family(df: pd.DataFrame, choice: str, tp_func) -> pd.DataFrame:
-    df = df.assign(**{f"is_{choice}": df["taxid"].apply(tp_func)})
+    col = f"is_{choice}"
+    df = df.assign(**{col: df["taxid"].apply(tp_func)})
+    df = df[df[col].astype(str).str.lower().eq("true")]
     return df
 
 
@@ -61,6 +52,7 @@ def check_presence(df:pd.DataFrame):
         return False
     elif len(df) > 0:
         return True
+
 
 def create_json(sample_id:str, df_genus: pd.DataFrame, df_species: pd.DataFrame, outdir: str): 
     json_setup = {
