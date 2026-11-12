@@ -53,7 +53,7 @@ def check_presence(df:pd.DataFrame):
         return True
 
 
-def create_json(sample_id: str, rank: str, df_genus: pd.DataFrame, df_species: pd.DataFrame, outdir: str): 
+def create_json(sample_id: str, rank: str, df_genus: pd.DataFrame, df_species: pd.DataFrame, out_dir: str): 
     json_setup = {
         "climb_id": sample_id,
         f"{rank.lower()}_presence_genus": check_presence(df_genus),
@@ -63,7 +63,7 @@ def create_json(sample_id: str, rank: str, df_genus: pd.DataFrame, df_species: p
         "species": ', '.join(df_species["name"].str.strip()),
         "species_taxids": ', '.join(df_species["taxid"].astype(str)),
     }
-    outfile = Path(f"{outdir}/{sample_id}_data.json")
+    outfile = Path(f"{out_dir}/{sample_id}_data.json")
     outfile.write_text(json.dumps(json_setup), encoding="utf-8")
 
 
