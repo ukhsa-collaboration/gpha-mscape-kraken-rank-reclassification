@@ -36,8 +36,6 @@ def detect_rank_commands(
                   out_dir=out_dir,
                   tp_func=tp_func)
     
-    create_aggregate()
-
 
 def validate_family(family:str, taxaPlease):
     allowed_choices = {
@@ -57,6 +55,24 @@ def validate_family(family:str, taxaPlease):
         
     tp_func = allowed_choices[choice]
     return allowed_choices, tp_func
+
+
+@app.command("aggregate-results")
+def aggregate_results_commands(
+    sample_id: str = typer.Option(..., help="Sequence sample ID.", exists=True),
+    lineages: str = typer.Option(..., help="Lineages .tsv (taxid, lineage).", exists=True),
+    bracken: str = typer.Option(..., help="Bracken Lineages .tsv (taxid, count).", exists=True),
+    report: str = typer.Option(..., help="Path to Kraken2 reports file.", exists=True),
+    results: str = typer.Option(..., help="Path to Kraken2 results file.", exists=True),
+    # family: str = typer.Option(..., help="Family to search for", exists=True, callback=normalize_choice),
+    # database: str = typer.Option(..., help="Path to the TaxaPlease database", exists=True),
+    prefix: str = typer.Option(..., help="Prefix to append to output file names.", exists=True),
+    out_dir: str = typer.Option(..., help="Path to the output directory.", exists=False)
+    ):
+    """Parse command line arguments and run main."""
+    
+    create_aggregate()
+
 
 
 if __name__ == "__main__":
