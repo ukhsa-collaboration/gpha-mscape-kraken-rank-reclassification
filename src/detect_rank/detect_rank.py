@@ -2,7 +2,6 @@ import json
 from pathlib import Path
 
 import pandas as pd
-from taxaplease.taxaplease import TaxaPlease
 
 __version__ = "0.1.1"
 
@@ -68,7 +67,7 @@ def create_json(sample_id: str, rank: str, df_genus: pd.DataFrame, df_species: p
     outfile.write_text(json.dumps(json_setup), encoding="utf-8")
 
 
-def run_detection(sample_id: str, report_path: str, database_path: str, family:str, outdir:str, tp_func):
+def run_detection(sample_id: str, report_path: str, database_path: str, family:str, out_dir:str, tp_func):
     print("running")
     df = load_report(report_path=report_path)
     
@@ -90,4 +89,4 @@ def run_detection(sample_id: str, report_path: str, database_path: str, family:s
                 rank=family,
                 df_genus= df_genus_level_detection,
                 df_species=df_species_level_detection,
-                outdir=outdir)
+                out_dir=out_dir)

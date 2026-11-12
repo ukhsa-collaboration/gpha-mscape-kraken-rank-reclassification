@@ -19,10 +19,10 @@ def detect_rank_commands(
     results: str = typer.Option(..., help="Path to Kraken2 results file", exists=True),
     family: str = typer.Option(..., help="Family to search for", exists=True, callback=normalize_choice),
     database: str = typer.Option(..., help="Path to the TaxaPlease database", exists=True),
-    outdir: str = typer.Option(..., help="Path to the output directory", exists=False)
+    out_dir: str = typer.Option(..., help="Path to the output directory", exists=False)
     ):
     
-    Path(outdir).mkdir(parents=True, exist_ok=True)
+    Path(out_dir).mkdir(parents=True, exist_ok=True)
     
     taxaPlease = TaxaPlease(database=database)
 
@@ -33,7 +33,7 @@ def detect_rank_commands(
                   report_path=report,
                   database_path=database,
                   family=family,
-                  outdir=outdir,
+                  out_dir=out_dir,
                   tp_func=tp_func)
 
 
