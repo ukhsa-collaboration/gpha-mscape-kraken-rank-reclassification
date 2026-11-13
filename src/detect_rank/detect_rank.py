@@ -176,7 +176,7 @@ def yield_entries(entries, total, indent=0):
             yield k
 
 
-def main(prefix, lineages, bracken, report):
+def create_aggregate(sample_id: str, lineages: str, bracken: str, report: str, prefix: str, out_dir: str):
     """Run lineage aggregation algorithm."""
     bracken_counts = {}
     entries = {}
@@ -215,49 +215,3 @@ def main(prefix, lineages, bracken, report):
             )
         )
     output_json.write(json.dumps(entries))
-
-
-def execute():
-    """Parse command line arguments and run main."""
-    parser = argparse.ArgumentParser(
-        description="Aggregates lineage counts in a kraken2-like format",
-    )
-    parser.add_argument(
-        "-i",
-        help=("Lineages .tsv (taxid, lineage)."),
-        dest="lineages",
-    )
-
-    parser.add_argument(
-        "-b",
-        help=("Bracken Lineages .tsv (taxid, count)."),
-        dest="bracken",
-    )
-
-    parser.add_argument(
-        "-u",
-        help=("full report to get unclassified count"),
-        dest="report",
-    )
-
-    parser.add_argument(
-        "-p",
-        help="Prefix to append to output file names.",
-        dest="prefix",
-        required=True,
-    )
-
-    args = parser.parse_args()
-
-    main(
-        lineages=args.lineages,
-        prefix=args.prefix,
-        bracken=args.bracken,
-        report=args.report,
-    )
-
-
-if __name__ == "__main__":
-    execute()
-def create_aggregate():
-    pass
