@@ -201,13 +201,13 @@ def create_aggregate(sample_id: str, lineages: str, bracken: str, report: str, p
                 unclassified_count = line.split()[2]
                 entries = update_or_create_unclassified(entries, unclassified_count)
                 total += int(unclassified_count)
-    output_report = open(f"{prefix}.lineages.txt", "w")
-    output_json = open(f"{prefix}.lineages.json", "w")
-    for entry in yield_entries(entries, total):
-        [indent, name, taxid, count, perc, rank] = entry
-        output_report.write(
-            " ".join(
-                ["-" * (indent + 1), name, str(taxid), str(count), perc, rank, "\n"]
+    report_path = Path(f"{prefix}.lineages.txt")
+    json_path = Path(f"{prefix}.lineages.json")
+
+    with report_path.open("w") as report_file, json_path.open("w") as json_file:
+        for indent, name, taxid, count, perc, rank in yield_entries(entries, total):
+            report_file.write(
+                f'{"-" * (indent + 1)} {name} {taxid} {count} {perc} {rank}\n'
             )
-        )
-    output_json.write(json.dumps(entries))
+
+        json.dump(entries, json_file)
