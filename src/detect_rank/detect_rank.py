@@ -144,7 +144,7 @@ def update_or_create_count(entry, entries, bracken_counts):
 
     previous = entries
     previous_rank = None
-    for [name, rank] in zip(lineage_split, ranks_split):
+    for [name, rank] in zip(lineage_split, ranks_split, strict=False):
 
         if rank not in RANKS:
             if previous_rank == "species":
@@ -201,8 +201,8 @@ def create_aggregate(sample_id: str, lineages: str, bracken: str, report: str, p
                 unclassified_count = line.split()[2]
                 entries = update_or_create_unclassified(entries, unclassified_count)
                 total += int(unclassified_count)
-    output_report = open("{}.lineages.txt".format(prefix), "w")
-    output_json = open("{}.lineages.json".format(prefix), "w")
+    output_report = open(f"{prefix}.lineages.txt", "w")
+    output_json = open(f"{prefix}.lineages.json", "w")
     for entry in yield_entries(entries, total):
         [indent, name, taxid, count, perc, rank] = entry
         output_report.write(
