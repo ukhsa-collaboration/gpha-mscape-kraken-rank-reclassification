@@ -71,6 +71,8 @@ def aggregate_results_commands(
     ):
     """Parse command line arguments and run main."""
     
+    Path(out_dir).mkdir(parents=True, exist_ok=True)
+    
     create_aggregate(
         sample_id=sample_id,
         prefix=prefix,
