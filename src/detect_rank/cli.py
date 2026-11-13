@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 
 import typer
@@ -12,6 +13,24 @@ def normalize_choice(value: str) -> str:
     return value.strip().lower().capitalize()
 
 
+# Logger set up
+def set_up_logger(stdout_file):
+    """Example logger set up which can be amended as required. In this example,
+    all logging messages go to a stdout log file, and error messages also go to
+    stderr log. If the component runs correctly, stderr is empty. The logger is
+    set to append mode so logs from older runs are not overwritten.
+    """
+    logger = logging.getLogger()
+    logger.setLevel(logging.DEBUG)
+    formatter = logging.Formatter("[%(asctime)s] %(levelname)s: %(message)s")
+
+    out_handler = logging.FileHandler(stdout_file, mode="a")
+    out_handler.setFormatter(formatter)
+    logger.addHandler(out_handler)
+
+    return logger
+
+
 @app.command("detect-rank")
 def detect_rank_commands(
     sample_id: str = typer.Option(..., help="Sequence sample ID", exists=True),
@@ -23,6 +42,8 @@ def detect_rank_commands(
     ):
     
     Path(out_dir).mkdir(parents=True, exist_ok=True)
+    log_file = Path(f"{out_dir}/logfile.txt")
+    set_up_logger(log_file)
     
     taxaPlease = TaxaPlease(database=database)
 
