@@ -1,69 +1,140 @@
-# mscape-template
+# <img src="https://upload.wikimedia.org/wikipedia/fi/6/69/UKHSA_Logo.svg.png" alt="mSCAPE logo" width="75" height="75"> GPHA mSCAPE Kraken Rank Classification
 
-This repository is a template for creating new repositories containing code that 
-will run on mSCAPE. It serves as a guide for code layout and files will need 
-amending to fit the repo purpose.
+## Table of Contents
 
-There is guidance documentation including SOPs that contain further information on required repository
-structure, development cycles, and making pull requests. Please read
-this guidance documentation before using the template.
+- [ GPHA mSCAPE Kraken Rank Classification](#-gpha-mscape-kraken-rank-classification)
+  - [Table of Contents](#table-of-contents)
+  - [Info](#info)
+  - [Features](#features)
+  - [Requirements](#requirements)
+  - [Install](#install)
+  - [Usage](#usage)
+    - [To run the application](#to-run-the-application)
+    - [Commands](#commands)
+  - [Troubleshooting](#troubleshooting)
+  - [Change-log](#change-log)
+  - [To-do](#to-do)
 
-Below the dashed line is a README template to be edited.
+---
 
----------------------
-# Project or Repo Name
+## Info
 
-Brief description of project here
+| Name         | mSCAPE-Kraken-Rank-Reclassification                                                 |
+|--------------|-------------------------------------------------------------------------------------|
+| Version      | 1.0.1                                                                               |
+| Last Updated | 13.11.2026                                                                          |
+| Author(s)    | Mike Brown                                                                          |
+| Contact      | <michael.d.brown@ukhsa.gov.uk>                                                      |
+| Summary      | Rank classification and json output generation (Syclla format) of Kraken reports    |
 
-## Installation
+---
 
-Add installation instructions here. Ideally include commands to make
-the process as easy as possible for users.
+## Features
 
-Clone repo and create environment:
+- aggregate-results function
+- detect-rank function
+  - uses TaxaPlease to search for microorganism family in Kraken report file
 
-`git clone git@github.com:ukhsa-collaboration/project-name.git`
+---
 
-`conda env create -n project-name `
+## Requirements
+>
+> [!Warning]
+> To run (as part of mSCAPE pipelines) it is necessary to have obtained: <br>
+> Access to BRYN <br>
+---
 
-`conda activate project-name`
+## Install
 
-Installation for users: 
+- Login to BRYN
+- Start a terminal session
+- Navigate to desired parent directory
+- Run:
 
-`cd project-name`
+```bash
+git clone git@github.com:ukhsa-collaboration/gpha-mscape-kraken-rank-reclassification.git
+cd gpha-mscape-kraken-rank-reclassification
+conda create -n kraken-reports
+conda activate kraken-reports
+pip install .
+```
 
-`pip install .`
+> [!Tip]
+> To run in developer mode:
+>
+> ```bash
+> pip install --editable '.[dev]'
+> ```
 
-Installation for developers (installs code in editable mode): 
-
-`cd project-name`
-
-`pip install --editable '.[dev]'`
+---
 
 ## Usage
 
-Include command line arguments (e.g. the output displayed when using -h)
-for reference. Example commands can also be helpful.
+### To run the application
 
+- Activate the environment
+- For Family Search:
+
+```bash
+find-rank detect-rank --sample-id <id/prefix> --report <path-to-kraken_report.txt> --results <path-to-kraken_results.txt> --database <path-to-taxaplease-database/taxa.db> --out-dir <save-directory> --family <archaea/bacteria/fungi/protozoa/virus> 
 ```
-project-name --input <path> --output <path>
+
+- For Scylla formatted json:
+
+```bash
+find-rank aggregate-results --sample-id <id/prefix> --lineages <path-to-modified_report_lineages.txt> --bracken <path-to-modified_report_taxacounts.txt> --report <path-to-kraken_report.txt --out-dir <save-directory>
 ```
 
-## Inputs (optional - useful if you have a CLI)
+> [!Note]
+> To obtain lineages.txt and taxacounts.txt
+>
+> ```bash
+> cat "${kraken_report}" | cut -f5,3 | tail -n+3 > "_taxacounts.txt"
+> cat "${kraken_report}" | cut -f5 | tail -n+3 > "_taxa.txt"
+> taxonkit lineage --data-dir "${db_path}" -R "_taxa.txt"  > "_lineages.txt"
+> ```
+>
+> where db_path is the path to NCBI Taxonomy dump files
 
-You may wish to use a table to list out the args:
+### Commands
 
-| Argument | Required | Description |
-| -------- | ------- | ------- |
-| --input, -i | Yes | Input for command line use  |
-| --output, -o | Yes | Output for command line use  |
+> [!Note]
+> To view commands --help/-h
 
-## Outputs (optional - useful if your tool creates lots of output files)
+| Argument | Required | Description | Default |
+| -------- | ------- | ------- | ----- |
+| find-rank | No | select family search  | n/a |
+| aggregate-results | No | select Scylla reformatting | n/a |
+| sample-id | Yes | ID of sample (prefix of output files) | n/a |
+| report | Yes | path to kraken report.txt file | n/a |
+| out-dir | Yes | path to the output save directory | n/a |
+| family | if find-rank | selection of family (archaea/bacteria/fungi/protozoa/virus) for filtering | n/a |
+| database | if find-rank | path to TaxaPlease database | n/a |
+| lineages | if aggregate-lineages | path to custom kraken report _lineages.txt | n/a |
+| bracken | if aggregate-lineages | path to custom kraken report _taxacounts.txt | n/a |
+| --help, -h | No | show the help message and exit | |
 
-Explain the output files in detail here.
+---
 
-## Other sections
+## Troubleshooting
 
-Add other sections as appropriate for your repo. This may include
-instructions on updating the repo, instructions on adding new
-references, troubleshooting etc.
+> [!Important]
+> Make sure to activate the correct environment to avoid errors <br>
+> Make sure all paths are entered correctly (Note. as of version 0.1.0 there is no config validation function/s) <br>
+> Make sure to see notes on how to obtain lineages.txt and taxacounts.txt
+
+---
+
+## Change-log
+
+See CHANGELOG.md
+
+---
+
+## To-do
+
+- [x] update feature section in README.md
+- [ ] \(Optional) add collapsing functionality to sections/components
+- [ ] \(Optional) task
+
+---
