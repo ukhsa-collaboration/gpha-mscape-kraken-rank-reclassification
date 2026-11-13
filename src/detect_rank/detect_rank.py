@@ -174,7 +174,7 @@ def yield_entries(entries, total, indent=0):
         yield from yield_entries(j["children"], total, indent + 1)
 
 
-def create_aggregate(sample_id: str, lineages: str, bracken: str, report: str, prefix: str, out_dir: str):
+def create_aggregate(sample_id: str, lineages: str, bracken: str, report: str, out_dir: str):
     """Run lineage aggregation algorithm."""
     bracken_counts = {}
     entries = {}

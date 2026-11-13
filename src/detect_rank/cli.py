@@ -63,10 +63,6 @@ def aggregate_results_commands(
     lineages: str = typer.Option(..., help="Lineages .tsv (taxid, lineage).", exists=True),
     bracken: str = typer.Option(..., help="Bracken Lineages .tsv (taxid, count).", exists=True),
     report: str = typer.Option(..., help="Path to Kraken2 reports file.", exists=True),
-    # results: str = typer.Option(..., help="Path to Kraken2 results file.", exists=True),
-    # family: str = typer.Option(..., help="Family to search for", exists=True, callback=normalize_choice),
-    # database: str = typer.Option(..., help="Path to the TaxaPlease database", exists=True),
-    prefix: str = typer.Option(..., help="Prefix to append to output file names.", exists=True),
     out_dir: str = typer.Option(..., help="Path to the output directory.", exists=False)
     ):
     """Parse command line arguments and run main."""
@@ -75,7 +71,6 @@ def aggregate_results_commands(
     
     create_aggregate(
         sample_id=sample_id,
-        prefix=prefix,
         lineages=lineages,
         bracken=bracken,
         report=report,
