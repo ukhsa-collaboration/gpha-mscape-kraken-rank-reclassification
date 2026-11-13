@@ -179,12 +179,12 @@ def create_aggregate(sample_id: str, lineages: str, bracken: str, report: str, p
     bracken_counts = {}
     entries = {}
     total = 0
-    with open(bracken) as f:
+    with Path(bracken).open() as f:
         bracken = f.readlines()
     if len(bracken) > 0:
         for i in bracken:
             bracken_counts[i.split()[1]] = i.split()[0]
-        with open(lineages) as f:
+        with Path(lineages).open() as f:
             in_file = f.readlines()
         for line in in_file:
             try:
@@ -194,7 +194,7 @@ def create_aggregate(sample_id: str, lineages: str, bracken: str, report: str, p
                 sys.stderr.write(
                     f"""Lineage for tax id {str(line)} not found in taxonomy database"""
                 )
-    with open(report) as f:
+    with Path(report).open() as f:
         report_file = f.readlines()
         for line in report_file:
             if line.split()[4] == "0" and "unclassified" in line:
