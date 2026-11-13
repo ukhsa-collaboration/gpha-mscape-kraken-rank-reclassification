@@ -1,4 +1,3 @@
-import argparse
 import json
 import sys
 from pathlib import Path
@@ -170,10 +169,9 @@ def update_or_create_count(entry, entries, bracken_counts):
 def yield_entries(entries, total, indent=0):
     """Get entries in printable form."""
     for i, j in entries.items():
-        perc = "{:.2%}".format(j["count"] / total)
-        yield (indent, i, j["taxid"], j["count"], perc, j["rank"])
-        for k in yield_entries(j["children"], total, indent + 1):
-            yield k
+        percent = "{:.2%}".format(j["count"] / total)
+        yield (indent, i, j["taxid"], j["count"], percent, j["rank"])
+        yield from yield_entries(j["children"], total, indent + 1)
 
 
 def create_aggregate(sample_id: str, lineages: str, bracken: str, report: str, prefix: str, out_dir: str):
@@ -187,16 +185,14 @@ def create_aggregate(sample_id: str, lineages: str, bracken: str, report: str, p
         for i in bracken:
             bracken_counts[i.split()[1]] = i.split()[0]
         with open(lineages) as f:
-            infile = f.readlines()
-        for line in infile:
+            in_file = f.readlines()
+        for line in in_file:
             try:
                 entries = update_or_create_count(line, entries, bracken_counts)
                 total += 1
             except ValueError:
                 sys.stderr.write(
-                    """Lineage for tax id {} not found in taxonomy database""".format(
-                        str(line)
-                    )
+                    f"""Lineage for tax id {str(line)} not found in taxonomy database"""
                 )
     with open(report) as f:
         report_file = f.readlines()
