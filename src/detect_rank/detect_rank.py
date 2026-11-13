@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pandas as pd
 
-__version__ = "0.1.1"
+__version__ = "1.0.1"
 
 
 ranks = ["Species", "Genus", "Family", "Order", "Kingdom", "Phylum"]
