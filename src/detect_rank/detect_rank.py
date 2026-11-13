@@ -202,9 +202,8 @@ def create_aggregate(sample_id: str, lineages: str, bracken: str, report: str, p
                 entries = update_or_create_unclassified(entries, unclassified_count)
                 total += int(unclassified_count)
                 
-    folder = Path(out_dir)
-    report_path = Path(f"{folder}{sample_id}.lineages.txt")
-    json_path = Path(f"{folder}{sample_id}.lineages.json")
+    report_path = Path(f"{out_dir}/{sample_id}.lineages.txt")
+    json_path = Path(f"{out_dir}/{sample_id}.lineages.json")
 
     with report_path.open("w") as report_file, json_path.open("w") as json_file:
         for indent, name, taxid, count, perc, rank in yield_entries(entries, total):
