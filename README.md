@@ -76,7 +76,7 @@ mamba install -c bioconda taxonkit
 - For Family Search:
 
 ```bash
-find-rank detect-rank --sample-id <id/prefix> --report <path-to-kraken_report.txt> --results <path-to-kraken_results.txt> --database <path-to-taxaplease-database/taxa.db> --out-dir <save-directory> --family <archaea/bacteria/fungi/protozoa/virus> 
+classify run-reclassification --sample-id <id/prefix> --report <path-to-kraken_report.txt> --results <path-to-kraken_results.txt> --database <path-to-taxaplease-database/taxa.db> --out-dir <save-directory> --family <archaea/bacteria/fungi/protozoa/virus> 
 ```
 
 - For Scylla formatted json:
