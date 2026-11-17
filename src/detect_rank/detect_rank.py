@@ -57,6 +57,7 @@ def create_json(sample_id: str, rank: str, df_genus: pd.DataFrame, df_species: p
     }
     outfile = Path(f"{out_dir}/{sample_id}_data.json")
     outfile.write_text(json.dumps(json_setup), encoding="utf-8")
+    return  outfile
 
 
 def run_detection(sample_id: str, report_path: str, database_path: str, microbe:str, out_dir:str, tp_func):
@@ -77,11 +78,14 @@ def run_detection(sample_id: str, report_path: str, database_path: str, microbe:
                                               choice=microbe,
                                               tp_func=tp_func)
 
-    create_json(sample_id=sample_id,
-                rank=microbe,
-                df_genus= df_genus_level_detection,
-                df_species=df_species_level_detection,
-                out_dir=out_dir)
+    detection_json = create_json(
+        sample_id=sample_id,
+        rank=microbe,
+        df_genus= df_genus_level_detection,
+        df_species=df_species_level_detection,
+        out_dir=out_dir
+        )
+    return detection_json
     
     
 #### 
@@ -267,6 +271,8 @@ def create_aggregate(sample_id: str, report: str, database_path: str, out_dir: s
             )
 
         json.dump(entries, json_file)
+    
+    return json_path
         
 
 ####

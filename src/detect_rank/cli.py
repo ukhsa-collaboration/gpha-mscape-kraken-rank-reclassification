@@ -34,6 +34,7 @@ def set_up_logger(stdout_file):
 @app.command("detect-rank")
 def detect_rank_commands(
     sample_id: str = typer.Option(..., help="Sequence sample ID", exists=True),
+    fastq: str = typer.Option(..., help="Path to the fastq file"),
     report: str = typer.Option(..., help="Path to Kraken2 reports file", exists=True),
     results: str = typer.Option(..., help="Path to Kraken2 results file", exists=True),
     microbe: str = typer.Option(..., help="Microbe to search for", exists=True, callback=normalize_choice),
@@ -53,7 +54,7 @@ def detect_rank_commands(
         taxaPlease=taxaPlease
         )
     
-    run_detection(
+    detection_json = run_detection(
         sample_id=sample_id,
         report_path=report,
         database_path=tp_database,
@@ -62,7 +63,7 @@ def detect_rank_commands(
         tp_func=tp_func
         )
     
-    create_aggregate(
+    scylla_json = create_aggregate(
         sample_id=sample_id,
         report=report,
         database_path=ncbi_database,
@@ -70,13 +71,13 @@ def detect_rank_commands(
     )
     
     create_onyx_json(
-        climb_id=climb_id,
+        climb_id=sample_id,
         run_id="", 
         microbe=microbe, 
         fastq=fastq, 
         report=report, 
         results=results, 
-        results_json=detect_json, 
+        results_json=detection_json, 
         results_json_summary=scylla_json,
         pipeline_info=""
         )
