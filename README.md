@@ -24,7 +24,7 @@
 | Version      | 1.0.1                                                                               |
 | Last Updated | 13.11.2026                                                                          |
 | Author(s)    | GPHA                                                                                |
-| Summary      | Rank classification and json output generation (Syclla format) of Kraken reports    |
+| Summary      | Search Kraken output reports.txt for microbe and reformat to match Syclla reporting |
 
 ---
 
