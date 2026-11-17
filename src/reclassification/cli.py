@@ -106,8 +106,6 @@ def validate_microbe(microbe:str, taxaPlease):
 @app.command("aggregate-results")
 def aggregate_results_commands(
     sample_id: str = typer.Option(..., help="Sequence sample ID.", exists=True),
-    # lineages: str = typer.Option(..., help="Lineages .tsv (taxid, lineage).", exists=True),
-    # bracken: str = typer.Option(..., help="Bracken Lineages .tsv (taxid, count).", exists=True),
     report: str = typer.Option(..., help="Path to Kraken2 reports file.", exists=True),
     database_path: str = typer.Option(..., help="Path to the NCBI taxonomy directory.", exists=True),
     out_dir: str = typer.Option(..., help="Path to the output directory.", exists=False)
@@ -123,16 +121,6 @@ def aggregate_results_commands(
         out_dir=out_dir,
     )
 
-
-@app.command("onyx-results")
-def generate_onyx_json(
-    sample_id: str = typer.Option(..., help="Sequence sample ID.", exists=True),
-    lineages: str = typer.Option(..., help="Lineages .tsv (taxid, lineage).", exists=True),
-    bracken: str = typer.Option(..., help="Bracken Lineages .tsv (taxid, count).", exists=True),
-    report: str = typer.Option(..., help="Path to Kraken2 reports file.", exists=True),
-    out_dir: str = typer.Option(..., help="Path to the output directory.", exists=False)
-    ):
-    pass
 
 if __name__ == "__main__":
     app()
