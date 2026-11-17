@@ -4,7 +4,7 @@ from pathlib import Path
 import typer
 from taxaplease.taxaplease import TaxaPlease
 
-from detect_rank.detect_rank import create_aggregate, run_detection
+from detect_rank.detect_rank import create_aggregate, create_onyx_json, run_detection
 
 app = typer.Typer(name="Kraken2 Detect Rank", help="Kraken2 output rank detection")
 
@@ -48,15 +48,19 @@ def detect_rank_commands(
     
     taxaPlease = TaxaPlease(database=tp_database)
 
-    microbe_choices, tp_func = validate_microbe(microbe=microbe,
-                                              taxaPlease=taxaPlease)
+    microbe_choices, tp_func = validate_microbe(
+        microbe=microbe,
+        taxaPlease=taxaPlease
+        )
     
-    run_detection(sample_id=sample_id,
-                  report_path=report,
-                  database_path=tp_database,
-                  microbe=microbe,
-                  out_dir=out_dir,
-                  tp_func=tp_func)
+    run_detection(
+        sample_id=sample_id,
+        report_path=report,
+        database_path=tp_database,
+        microbe=microbe,
+        out_dir=out_dir,
+        tp_func=tp_func
+        )
     
     create_aggregate(
         sample_id=sample_id,
@@ -64,6 +68,18 @@ def detect_rank_commands(
         database_path=ncbi_database,
         out_dir=out_dir,
     )
+    
+    create_onyx_json(
+        climb_id=climb_id,
+        run_id="", 
+        microbe=microbe, 
+        fastq=fastq, 
+        report=report, 
+        results=results, 
+        results_json=detect_json, 
+        results_json_summary=scylla_json,
+        pipeline_info=""
+        )
     
 
 def validate_microbe(microbe:str, taxaPlease):
