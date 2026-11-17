@@ -1,4 +1,4 @@
-# <img src="assets/ukhsa_logo.png" width="75" alt="UKHSA Logo"> GPHA mSCAPE Kraken Rank Classification
+# <img src="assests/UKHSA_Logo.png" width="75" alt="UKHSA Logo"> GPHA mSCAPE Kraken Rank Classification
 
 ## Table of Contents
 
