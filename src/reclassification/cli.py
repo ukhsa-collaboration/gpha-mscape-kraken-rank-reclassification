@@ -77,8 +77,8 @@ def run_reclassification(
         fastq=fastq, 
         report=report, 
         results=results, 
-        results_json=detection_json, 
-        results_json_summary=scylla_json,
+        results_json=scylla_json, 
+        results_json_summary=detection_json,
         pipeline_info=""
         )
     
