@@ -23,8 +23,7 @@
 |--------------|-------------------------------------------------------------------------------------|
 | Version      | 1.0.1                                                                               |
 | Last Updated | 13.11.2026                                                                          |
-| Author(s)    | Mike Brown                                                                          |
-| Contact      | <michael.d.brown@ukhsa.gov.uk>                                                      |
+| Author(s)    | GPHA                                                                                |
 | Summary      | Rank classification and json output generation (Syclla format) of Kraken reports    |
 
 ---
