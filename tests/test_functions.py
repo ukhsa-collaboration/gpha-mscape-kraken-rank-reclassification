@@ -15,12 +15,12 @@ TEST_DATA = Path(__file__).parent / "data"
 
 @pytest.fixture
 def kraken_report():
-    return TEST_DATA / "kraken_report.txt"
+    return TEST_DATA / "test_kraken_report.txt"
 
 
 @pytest.fixture
 def kraken_results():
-    return TEST_DATA / "kraken_results.txt"
+    return TEST_DATA / "test_kraken_results.txt"
 
 
 @pytest.fixture
