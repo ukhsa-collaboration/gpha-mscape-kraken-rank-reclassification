@@ -1,4 +1,5 @@
 import json
+import logging
 import subprocess
 import sys
 from pathlib import Path
@@ -311,9 +312,9 @@ def create_analysis_fields(
     onyx_analysis = oa.OnyxAnalysis()
     onyx_analysis.add_analysis_details(
         analysis_name=f"gpha-mscape-orangebox-{microbe}-reclassification",
-        analysis_description="results from KRAKEN analysis rerun with a more complete representation of virus in utilized database",
+        analysis_description=f"Kraken rerun with database designed for better representation of {microbe}",
     )
-    #onyx_analysis.add_package_metadata(package_name="mscape-sample-qc")
+    onyx_analysis.add_package_metadata(package_name="package-name-here")
     onyx_analysis.pipeline_name = pipeline_info["name"]
     onyx_analysis.pipeline_version = pipeline_info["version"]
     onyx_analysis.pipeline_url = pipeline_info["homePage"]
@@ -325,7 +326,12 @@ def create_analysis_fields(
     required_field_fail, attribute_fail = onyx_analysis.check_analysis_object(publish_analysis=publish_analysis)
     
     # add in output fail to line below
-    exitcode = 1 if any([methods_fail, results_fail, required_field_fail, attribute_fail]) else 0
+    if any([methods_fail, results_fail, required_field_fail, attribute_fail]):
+        logging.error("Incorrect attribute in analysis object, check logs for details")
+        exitcode = 1
+    else:
+        logging.info("Correct attributes in analysis object")
+        exitcode = 0
     return onyx_analysis, exitcode
 
 
