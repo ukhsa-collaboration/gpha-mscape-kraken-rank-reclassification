@@ -27,10 +27,11 @@ def kraken_results():
 def test_report(kraken_report):
     df = load_report(kraken_report)
     assert not df.empty
+    return df
 
 
-def test_report_columns(kraken_report):
-    assert list(kraken_report.columns) == [
+def test_report_columns(test_report):
+    assert list(test_report.columns) == [
         "percent_coverage",
         "no_reads_covered",
         "no_reads_assigned",
@@ -40,14 +41,14 @@ def test_report_columns(kraken_report):
     ]
 
 
-def test_search_rank(kraken_report):
-    df = search_rank(kraken_report, "Genus") 
+def test_search_rank(test_report):
+    df = search_rank(test_report, "Genus") 
     print(df)
     assert not df.empty
     assert df["rank"].nunique() == 3
     assert set(df["rank"]) == {"Bacteria", "Fungi", "Virus"}
     
-    df = search_rank(kraken_report, "Species")
+    df = search_rank(test_report, "Species")
     assert not df.empty
 
 def test_example():
