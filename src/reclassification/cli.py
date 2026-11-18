@@ -55,7 +55,7 @@ def run_reclassification(
         taxaPlease=taxaPlease
         )
     
-    publish = bool(publish)
+    print(publish)
     
     detection_json = run_detection(
         sample_id=sample_id,

@@ -293,7 +293,7 @@ def create_analysis_fields(
     server: str,
     headline_result: str,  # Required
     result_folder: Path,
-    publish: str,
+    publish_analysis: str,
 ) -> dict:
     """Set up fields dictionary used to populate analysis table containing
     QC metrics.
@@ -322,7 +322,7 @@ def create_analysis_fields(
     results_fail = onyx_analysis.add_results(top_result=headline_result, results_dict=results)
     onyx_analysis.add_server_records(sample_id=record_id, server_name=server)
     # output_fail = onyx_analysis.add_output_location(result_folder)
-    required_field_fail, attribute_fail = onyx_analysis.check_analysis_object(publish_analysis=publish)
+    required_field_fail, attribute_fail = onyx_analysis.check_analysis_object(publish_analysis=publish_analysis)
     
     # add in output fail to line below
     exitcode = 1 if any([methods_fail, results_fail, required_field_fail, attribute_fail]) else 0
