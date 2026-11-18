@@ -353,8 +353,8 @@ def sort_pipeline_info(pipeline_info:str)->dict:
             pipeline_info_list[1].split(":")[0]: pipeline_info_list[1].split(":")[1],  # Version
             pipeline_info_list[2].split(":")[0]: ":".join(pipeline_info_list[2].split(":")[1:]),  # WebURL
         }
-    except ValueError:
-        print("incorrect pipeline info")
+    except IndexError:
+        print("incorrect pipeline info, list index out of range")
         pipeline_info_dict = {}
     return pipeline_info_dict
 
