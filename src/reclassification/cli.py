@@ -78,10 +78,10 @@ def run_reclassification(
         run_id="", 
         microbe=microbe, 
         fastq=fastq, 
-        report=report, 
-        results=results, 
-        results_json=scylla_json, 
-        results_json_summary=detection_json,
+        report="",#report, 
+        results="",#results, 
+        results_json="", #scylla_json, 
+        results_json_summary="", #detection_json,
         pipeline_info="",
         publish=publish
         )
