@@ -11,7 +11,7 @@ dependencies = [
     "typer",
     "climb-onyx-client",
     "onyx-analysis-helper@git+https://github.com/ukhsa-collaboration/onyx-analysis-helper.git@v0.6.7", 
-    "taxaplease @ git+https://github.com/ukhsa-collaboration/gpha-mscape-taxaplease.git@main"
+    "taxaplease @ git+https://github.com/ukhsa-collaboration/gpha-mscape-taxaplease.git@v2.5.2"
     ]  
 
 [tool.setuptools.dynamic]
