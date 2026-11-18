@@ -293,6 +293,7 @@ def create_analysis_fields(
     server: str,
     headline_result: str,  # Required
     result_folder: Path,
+    publish: str,
 ) -> dict:
     """Set up fields dictionary used to populate analysis table containing
     QC metrics.
@@ -321,7 +322,7 @@ def create_analysis_fields(
     results_fail = onyx_analysis.add_results(top_result=headline_result, results_dict=results)
     onyx_analysis.add_server_records(sample_id=record_id, server_name=server)
     # output_fail = onyx_analysis.add_output_location(result_folder)
-    required_field_fail, attribute_fail = onyx_analysis.check_analysis_object()
+    required_field_fail, attribute_fail = onyx_analysis.check_analysis_object(publish_analysis=publish)
     
     # add in output fail to line below
     exitcode = 1 if any([methods_fail, results_fail, required_field_fail, attribute_fail]) else 0
@@ -359,7 +360,7 @@ def sort_pipeline_info(pipeline_info:str, microbe:str)->dict:
     return pipeline_info_dict
 
 
-def create_onyx_json(climb_id: str, run_id: str, microbe: str, fastq: str, report: str, results: str, results_json: str, results_json_summary: str, pipeline_info: str):
+def create_onyx_json(climb_id: str, run_id: str, microbe: str, fastq: str, report: str, results: str, results_json: str, results_json_summary: str, pipeline_info: str, publish: str):
     # Convert JSON String to Python dict
     with Path(results_json).open() as json_file:
         results_json = json.load(json_file)
@@ -376,6 +377,7 @@ def create_onyx_json(climb_id: str, run_id: str, microbe: str, fastq: str, repor
                                                             results=results_json,  # Optional, needs to be a dictionary
                                                             server="mscape",
                                                             headline_result=results_json_summary,  # Required
-                                                            result_folder="")
+                                                            result_folder="",
+                                                            publish_analysis=publish)
     analysis_fields_dict.write_analysis_to_json(f"{climb_id}.{microbe}_reclassification.analysis_fields.json")
     

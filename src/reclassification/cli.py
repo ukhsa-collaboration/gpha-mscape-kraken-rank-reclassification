@@ -40,7 +40,8 @@ def run_reclassification(
     microbe: str = typer.Option(..., help="Microbe to search for", exists=True, callback=normalize_choice),
     tp_database: str = typer.Option(..., help="Path to the TaxaPlease database", exists=True),
     ncbi_database: str = typer.Option(..., help="Path to the NCBI taxonomy directory.", exists=True),
-    out_dir: str = typer.Option(..., help="Path to the output directory", exists=False)
+    out_dir: str = typer.Option(..., help="Path to the output directory", exists=False),
+    publish: bool = typer.Option(..., help="Bool, TRUE if checking an analysis object ready for publication, False checking an analysis object that will not be published yet and so will be missing the outputs/report field")
     ):
     
     Path(out_dir).mkdir(parents=True, exist_ok=True)
@@ -79,7 +80,8 @@ def run_reclassification(
         results=results, 
         results_json=scylla_json, 
         results_json_summary=detection_json,
-        pipeline_info=""
+        pipeline_info="",
+        publish=publish
         )
     
 
