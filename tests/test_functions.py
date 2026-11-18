@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest  # noqa: F401
 from mscape_template import mscape_functions as mf  # noqa: F401
 
-from reclassification.data_reformatting import load_report
+from reclassification.data_reformatting import load_report, search_rank
 
 TEST_DATA = Path(__file__).parent / "data"
 
@@ -30,7 +30,7 @@ def test_report(kraken_report):
 
 
 def test_report_columns(kraken_report):
-    assert list(test_report.columns) == [
+    assert list(kraken_report.columns) == [
         "percent_coverage",
         "no_reads_covered",
         "no_reads_assigned",
@@ -39,6 +39,16 @@ def test_report_columns(kraken_report):
         "name",
     ]
 
+
+def test_search_rank(kraken_report):
+    df = search_rank(kraken_report, "Genus") 
+    print(df)
+    assert not df.empty
+    assert df["rank"].nunique() == 3
+    assert set(df["rank"]) == {"Bacteria", "Fungi", "Virus"}
+    
+    df = search_rank(kraken_report, "Species")
+    assert not df.empty
 
 def test_example():
     assert True
