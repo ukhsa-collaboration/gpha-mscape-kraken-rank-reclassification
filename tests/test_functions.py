@@ -51,6 +51,7 @@ def test_search_rank(test_report):
     assert set(df["name"]) == {"Escherichia", "Betacoronavirus", "Saccharomyces"}
     
     df = search_rank(test_report, "Species")
+    print("h")
     print(df)
     assert not df.empty
 
