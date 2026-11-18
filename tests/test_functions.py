@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest  # noqa: F401
 from mscape_template import mscape_functions as mf  # noqa: F401
 
-from reclassification.data_reformatting import load_report, search_rank
+from reclassification.data_reformatting import load_report, search_rank, which_microbe
 
 TEST_DATA = Path(__file__).parent / "data"
 
@@ -45,10 +45,12 @@ def test_search_rank(test_report):
     df = search_rank(test_report, "Genus") 
     print(df)
     assert not df.empty
-    assert df["rank"].nunique() == 3
-    assert set(df["rank"]) == {"Bacteria", "Fungi", "Virus"}
+    assert df["rank"].nunique() == 1
+    assert df["name"].nunique() == 3
+    assert set(df["rank"]) == {"Escherichia", "Betacoronavirus", "Saccharomyce"}
     
     df = search_rank(test_report, "Species")
+    print(df)
     assert not df.empty
 
 def test_example():
