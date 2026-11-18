@@ -369,6 +369,7 @@ def create_onyx_json(climb_id: str, run_id: str, microbe: str, fastq: str, repor
     pipeline_info_dict = sort_pipeline_info(pipeline_info)
 
     analysis_fields_dict, exitcode = create_analysis_fields(record_id=climb_id,
+                                                            microbe=microbe,
                                                             thresholds="",
                                                             pipeline_info=pipeline_info_dict,
                                                             results=results_json,  # Optional, needs to be a dictionary
