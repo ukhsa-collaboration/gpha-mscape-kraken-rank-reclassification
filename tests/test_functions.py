@@ -47,7 +47,8 @@ def test_search_rank(test_report):
     assert not df.empty
     assert df["rank"].nunique() == 1
     assert df["name"].nunique() == 3
-    assert set(df["rank"]) == {"Escherichia", "Betacoronavirus", "Saccharomyce"}
+    assert set(df["rank"]) == {"G"}
+    assert set(df["name"]) == {"Escherichia", "Betacoronavirus", "Saccharomyce"}
     
     df = search_rank(test_report, "Species")
     print(df)
