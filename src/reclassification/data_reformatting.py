@@ -314,7 +314,7 @@ def create_analysis_fields(
         analysis_name=f"gpha-mscape-orangebox-{microbe}-reclassification",
         analysis_description=f"Kraken rerun with database designed for better representation of {microbe}",
     )
-    onyx_analysis.add_package_metadata(package_name="package-name-here")
+    onyx_analysis.add_package_metadata(package_name="gpha-mscape-kraken-rank-reclassification")
     onyx_analysis.pipeline_name = pipeline_info["name"]
     onyx_analysis.pipeline_version = pipeline_info["version"]
     onyx_analysis.pipeline_url = pipeline_info["homePage"]
