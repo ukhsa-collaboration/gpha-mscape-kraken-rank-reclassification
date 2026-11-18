@@ -367,7 +367,7 @@ def sort_pipeline_info(pipeline_info:str, microbe:str)->dict:
     return pipeline_info_dict
 
 
-def create_onyx_json(climb_id: str, run_id: str, microbe: str, fastq: str, report: str, results: str, results_json: str, results_json_summary: str, pipeline_info: str, publish: str):
+def create_onyx_json(climb_id: str, run_id: str, microbe: str, fastq: str, report: str, results: str, results_json: str, results_json_summary: str, pipeline_info: str, publish: str, out_dir: str):
     # Convert JSON String to Python dict
     with Path(results_json).open() as json_file:
         results_json = json.load(json_file)
@@ -386,5 +386,5 @@ def create_onyx_json(climb_id: str, run_id: str, microbe: str, fastq: str, repor
                                                             headline_result=results_json_summary,  # Required
                                                             result_folder="",
                                                             publish_analysis=publish)
-    analysis_fields_dict.write_analysis_to_json(f"{climb_id}.{microbe}_reclassification.analysis_fields.json")
+    analysis_fields_dict.write_analysis_to_json(f"{out_dir}/{climb_id}.{microbe}_reclassification.analysis_fields.json")
     
