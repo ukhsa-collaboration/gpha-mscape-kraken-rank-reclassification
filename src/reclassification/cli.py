@@ -4,7 +4,7 @@ from pathlib import Path
 import typer
 from taxaplease.taxaplease import TaxaPlease
 
-from reclassification.data_reformating import create_aggregate, create_onyx_json, run_detection
+from reclassification.data_reformatting import create_aggregate, create_onyx_json, run_detection
 
 app = typer.Typer(name="Kraken2 Detect Rank", help="Kraken2 output rank detection")
 
