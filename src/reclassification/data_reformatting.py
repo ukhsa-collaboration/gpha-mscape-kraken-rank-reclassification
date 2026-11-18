@@ -323,7 +323,7 @@ def create_analysis_fields(
     results_fail = onyx_analysis.add_results(top_result=headline_result, results_dict=results)
     onyx_analysis.add_server_records(sample_id=record_id, server_name=server)
     # output_fail = onyx_analysis.add_output_location(result_folder)
-    required_field_fail, attribute_fail = onyx_analysis.check_analysis_object(publish_analysis=publish_analysis)
+    required_field_fail, attribute_fail = onyx_analysis.check_analysis_object(publish_analysis=False)
     
     # add in output fail to line below
     if any([methods_fail, results_fail, required_field_fail, attribute_fail]):
