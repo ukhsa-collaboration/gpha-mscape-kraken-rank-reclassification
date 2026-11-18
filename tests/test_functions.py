@@ -41,7 +41,8 @@ def test_report_columns(test_report):
     ]
 
 
-def test_search_rank(test_report):
+@pytest.fixture
+def test_search_rank_genus(test_report):
     df = search_rank(test_report, "Genus") 
     print(df)
     assert not df.empty
@@ -52,6 +53,11 @@ def test_search_rank(test_report):
     assert set(df["taxid"] == {561, 11118, 4932})
     assert set(df["name"]) == {"Escherichia", "Betacoronavirus", "Saccharomyces"}
     
+    return df
+
+
+@pytest.fixture
+def test_search_rank_species(test_report):    
     df = search_rank(test_report, "Species")
     print(df)
     assert not df.empty
@@ -61,6 +67,8 @@ def test_search_rank(test_report):
     assert set(df["rank"]) == {"S"}
     assert set(df["taxid"] == {562, 2697049, 4932})
     assert set(df["name"]) == {"Escherichia coli", "Saccharomyces cerevisiae", "Severe acute respiratory syndrome coronavirus 2"}
+    return df
 
-def test_example():
-    assert True
+
+# def test_which_microbe(test_search_rank_genus):
+#     df = which_microbe(test_search_rank_genus)
