@@ -345,32 +345,29 @@ def write_onxy_results_to_json(results_dict: dict, climb_id: str, microbe: str, 
     return result_file
 
 
+def sort_pipeline_info(pipeline_info:str)->dict:
+    pipeline_info_list = pipeline_info.split(",")
+    try:
+        pipeline_info_dict = {
+            pipeline_info_list[0].split(":")[0]: pipeline_info_list[0].split(":")[1],  # Name
+            pipeline_info_list[1].split(":")[0]: pipeline_info_list[1].split(":")[1],  # Version
+            pipeline_info_list[2].split(":")[0]: ":".join(pipeline_info_list[2].split(":")[1:]),  # WebURL
+        }
+    except ValueError:
+        print("incorrect pipeline info")
+        pipeline_info_dict = {}
+    return pipeline_info_dict
+
 
 def create_onyx_json(climb_id: str, run_id: str, microbe: str, fastq: str, report: str, results: str, results_json: str, results_json_summary: str, pipeline_info: str):
-    # parser = argparse.ArgumentParser(description="yes.")
-    # parser.add_argument('--report', type=str, required=True, help="path to Kraken report file")
-    # parser.add_argument('--results', type=str, required=True, help="path to Kraken results file")
-    # parser.add_argument('--results_json', type=str, required=True, help="path to the viral json file")
-    # parser.add_argument('--results_json_summary', type=str, required=True, help="path to the summary results json file")
-    # parser.add_argument('--climbid', type=str, required=False, help="climb id")
-    # parser.add_argument('--runid', type=str, required='--climb-id' in sys.argv, help="run id")
-    # parser.add_argument('--file_path', type=str, required=False, help="path to fastq file")
-    # parser.add_argument('--method', type=str, required=True, help="path to custom kraken database")
-    # parser.add_argument('--pipeline_info', type=str, required=True, help="pipeline infomation")
-    
-        # Convert JSON String to Python dict
+    # Convert JSON String to Python dict
     with Path(results_json).open() as json_file:
         results_json = json.load(json_file)
     with Path(results_json_summary).open() as json_file:
         results_json_summary = json.load(json_file)
 
-    pipeline_info_list = pipeline_info.split(",")
-    pipeline_info_dict = {
-        pipeline_info_list[0].split(":")[0]: pipeline_info_list[0].split(":")[1],  # Name
-        pipeline_info_list[1].split(":")[0]: pipeline_info_list[1].split(":")[1],  # Version
-        pipeline_info_list[2].split(":")[0]: ":".join(pipeline_info_list[2].split(":")[1:]),  # WebURL
-    }
-    
+    pipeline_info_dict = sort_pipeline_info(pipeline_info)
+
     analysis_fields_dict, exitcode = create_analysis_fields(record_id=climb_id,
                                                             thresholds="",
                                                             pipeline_info=pipeline_info_dict,
