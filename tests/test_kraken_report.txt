@@ -1,0 +1,17 @@
+100.00	1500	1500	U	0	unclassified
+95.00	1425	1425	R	1	root
+80.00	800	800	D	2	Bacteria
+50.00	500	500	P	1224	Proteobacteria
+30.00	300	300	C	1236	Gammaproteobacteria
+20.00	200	200	O	91347	Enterobacterales
+15.00	150	150	F	543	Enterobacteriaceae
+10.00	100	100	G	561	Escherichia
+8.00	80	80	S	562	Escherichia coli
+12.00	180	180	D	10239	Viruses
+8.00	120	120	F	1978007	Coronaviridae
+5.00	75	75	G	11118	Betacoronavirus
+3.00	45	45	S	2697049	Severe acute respiratory syndrome coronavirus 2
+6.00	90	90	D	4751	Fungi
+4.00	60	60	P	4890	Ascomycota
+2.50	38	38	G	4932	Saccharomyces
+2.00	30	30	S	4932	Saccharomyces cerevisiae
