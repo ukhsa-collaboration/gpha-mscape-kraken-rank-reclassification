@@ -345,7 +345,7 @@ def write_onxy_results_to_json(results_dict: dict, climb_id: str, microbe: str, 
     return result_file
 
 
-def sort_pipeline_info(pipeline_info:str)->dict:
+def sort_pipeline_info(pipeline_info:str, microbe:str)->dict:
     pipeline_info_list = pipeline_info.split(",")
     try:
         pipeline_info_dict = {
@@ -355,7 +355,7 @@ def sort_pipeline_info(pipeline_info:str)->dict:
         }
     except IndexError:
         print("incorrect pipeline info, list index out of range")
-        pipeline_info_dict = {}
+        pipeline_info_dict = {"name": f"{microbe}_reclassification", "version": "n/a", "homePage": "n/a"}
     return pipeline_info_dict
 
 
@@ -366,7 +366,8 @@ def create_onyx_json(climb_id: str, run_id: str, microbe: str, fastq: str, repor
     with Path(results_json_summary).open() as json_file:
         results_json_summary = json.load(json_file)
 
-    pipeline_info_dict = sort_pipeline_info(pipeline_info)
+    pipeline_info_dict = sort_pipeline_info(pipeline_info=pipeline_info,
+                                            microbe=microbe)
 
     analysis_fields_dict, exitcode = create_analysis_fields(record_id=climb_id,
                                                             microbe=microbe,
