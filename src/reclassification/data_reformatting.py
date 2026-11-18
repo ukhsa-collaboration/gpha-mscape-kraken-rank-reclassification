@@ -355,6 +355,7 @@ def sort_pipeline_info(pipeline_info:str, microbe:str)->dict:
             pipeline_info_list[2].split(":")[0]: ":".join(pipeline_info_list[2].split(":")[1:]),  # WebURL
         }
     except IndexError:
+        pass
         print("incorrect pipeline info, list index out of range")
         pipeline_info_dict = {"name": f"{microbe}_reclassification", "version": "n/a", "homePage": "n/a"}
     return pipeline_info_dict
