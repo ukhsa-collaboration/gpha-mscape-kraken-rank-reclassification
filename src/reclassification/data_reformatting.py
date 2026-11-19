@@ -5,7 +5,6 @@ import sys
 from pathlib import Path
 
 import pandas as pd
-from onyx_analysis_helper import onyx_analysis_helper_functions as oa  # type: ignore
 
 __version__ = "1.0.1"
 
@@ -38,7 +37,7 @@ def which_microbe(df: pd.DataFrame, choice: str, tp_func) -> pd.DataFrame:
     return df
 
 
-def check_presence(df:pd.DataFrame):
+def check_presence(df: pd.DataFrame):
     """check to see if there are any return viral/fungi/etc. reads based on the length of passed DataFrame."""
     if len(df) == 0:
         return False
@@ -46,63 +45,57 @@ def check_presence(df:pd.DataFrame):
         return True
 
 
-def create_json(sample_id: str, rank: str, df_genus: pd.DataFrame, df_species: pd.DataFrame, out_dir: str): 
+def create_json(sample_id: str, rank: str, df_genus: pd.DataFrame, df_species: pd.DataFrame, out_dir: str):
     json_setup = {
         "climb_id": sample_id,
         f"{rank.lower()}_presence_genus": check_presence(df_genus),
         f"{rank.lower()}_presence_species": check_presence(df_species),
-        "genus": ', '.join(df_genus["name"].str.strip()),
-        "genus_taxids": ', '.join(df_genus["taxid"].astype(str)),
-        "species": ', '.join(df_species["name"].str.strip()),
-        "species_taxids": ', '.join(df_species["taxid"].astype(str)),
+        "genus": ", ".join(df_genus["name"].str.strip()),
+        "genus_taxids": ", ".join(df_genus["taxid"].astype(str)),
+        "species": ", ".join(df_species["name"].str.strip()),
+        "species_taxids": ", ".join(df_species["taxid"].astype(str)),
     }
     outfile = Path(f"{out_dir}/{sample_id}_data.json")
     outfile.write_text(json.dumps(json_setup), encoding="utf-8")
-    return  outfile
+    return outfile
 
 
-def run_detection(sample_id: str, report_path: str, database_path: str, microbe:str, out_dir:str, tp_func):
+def run_detection(sample_id: str, report_path: str, database_path: str, microbe: str, out_dir: str, tp_func):
     print("running")
     df = load_report(report_path=report_path)
-    
-    df_genus_level_detection = search_rank(df=df,
-                                           rank="Genus")
-    
-    df_genus_level_detection = which_microbe(df=df_genus_level_detection,
-                                            choice=microbe,
-                                            tp_func=tp_func)
-    
-    df_species_level_detection = search_rank(df=df,
-                                             rank="Species")
-    
-    df_species_level_detection = which_microbe(df=df_species_level_detection,
-                                              choice=microbe,
-                                              tp_func=tp_func)
+
+    df_genus_level_detection = search_rank(df=df, rank="Genus")
+
+    df_genus_level_detection = which_microbe(df=df_genus_level_detection, choice=microbe, tp_func=tp_func)
+
+    df_species_level_detection = search_rank(df=df, rank="Species")
+
+    df_species_level_detection = which_microbe(df=df_species_level_detection, choice=microbe, tp_func=tp_func)
 
     detection_json = create_json(
         sample_id=sample_id,
         rank=microbe,
-        df_genus= df_genus_level_detection,
+        df_genus=df_genus_level_detection,
         df_species=df_species_level_detection,
-        out_dir=out_dir
-        )
+        out_dir=out_dir,
+    )
     return detection_json
-    
-    
-#### 
+
+
+####
 
 
 def reformat_kraken_report(sample_id: str, kraken_report: str, database_path: str, out_dir: str):
     """Replicates:
 
-            cut -f5,3 | tail -n+3 > _taxacounts.txt
-            cut -f5   | tail -n+3 > _taxa.txt
-            taxonkit lineage -R _taxa.txt > _lineages.txt
+        cut -f5,3 | tail -n+3 > _taxacounts.txt
+        cut -f5   | tail -n+3 > _taxa.txt
+        taxonkit lineage -R _taxa.txt > _lineages.txt
 
-        Returns:
-            (_taxacounts.txt, _taxa.txt, _lineages.txt)
+    Returns:
+        (_taxacounts.txt, _taxa.txt, _lineages.txt)
     """
-        
+
     out_dir = Path(out_dir)
     taxa_file = out_dir / f"{sample_id}_taxa.txt"
     taxa_counts_file = out_dir / f"{sample_id}_taxacounts.txt"
@@ -150,7 +143,7 @@ def reformat_kraken_report(sample_id: str, kraken_report: str, database_path: st
 
 
 """Script to create an aggregated count from lineage data."""
-### taken from epi2ome/wf-metagenomics under the conditions of their license https://github.com/epi2me-labs/wf-metagenomics/blob/master/LICENSE and modified for this use case. copied from scylla https://github.com/artic-network/scylla/blob/2bbc52aa36811d8ab36918e4eda2f83b17d62a13/bin/aggregate_lineages_bracken.py 
+### taken from epi2ome/wf-metagenomics under the conditions of their license https://github.com/epi2me-labs/wf-metagenomics/blob/master/LICENSE and modified for this use case. copied from scylla https://github.com/artic-network/scylla/blob/2bbc52aa36811d8ab36918e4eda2f83b17d62a13/bin/aggregate_lineages_bracken.py
 
 UNCLASSIFIED = "Unclassified"
 UNKNOWN = "Unknown"
@@ -199,7 +192,6 @@ def update_or_create_count(entry, entries, bracken_counts):
     previous = entries
     previous_rank = None
     for [name, rank] in zip(lineage_split, ranks_split, strict=False):
-
         if rank not in RANKS:
             if previous_rank == "species":
                 rank = "subspecies"
@@ -229,12 +221,11 @@ def yield_entries(entries, total, indent=0):
 
 
 def create_aggregate(sample_id: str, report: str, database_path: str, out_dir: str):
-    
-    bracken, taxa, lineages = reformat_kraken_report(sample_id=sample_id,
-                                                     kraken_report=report,
-                                                     database_path=database_path,
-                                                     out_dir=out_dir)
-    
+
+    bracken, taxa, lineages = reformat_kraken_report(
+        sample_id=sample_id, kraken_report=report, database_path=database_path, out_dir=out_dir
+    )
+
     """Run lineage aggregation algorithm."""
     bracken_counts = {}
     entries = {}
@@ -251,9 +242,7 @@ def create_aggregate(sample_id: str, report: str, database_path: str, out_dir: s
                 entries = update_or_create_count(line, entries, bracken_counts)
                 total += 1
             except ValueError:
-                sys.stderr.write(
-                    f"""Lineage for tax id {str(line)} not found in taxonomy database"""
-                )
+                sys.stderr.write(f"""Lineage for tax id {str(line)} not found in taxonomy database""")
     with Path(report).open() as f:
         report_file = f.readlines()
         for line in report_file:
@@ -261,25 +250,23 @@ def create_aggregate(sample_id: str, report: str, database_path: str, out_dir: s
                 unclassified_count = line.split()[2]
                 entries = update_or_create_unclassified(entries, unclassified_count)
                 total += int(unclassified_count)
-                
+
     report_path = Path(f"{out_dir}/{sample_id}.lineages.txt")
     json_path = Path(f"{out_dir}/{sample_id}.lineages.json")
 
     with report_path.open("w") as report_file, json_path.open("w") as json_file:
         for indent, name, taxid, count, perc, rank in yield_entries(entries, total):
-            report_file.write(
-                f'{"-" * (indent + 1)} {name} {taxid} {count} {perc} {rank}\n'
-            )
+            report_file.write(f"{'-' * (indent + 1)} {name} {taxid} {count} {perc} {rank}\n")
 
         json.dump(entries, json_file)
-    
+
     return json_path
-        
+
 
 ####
 
 
-def get_id_names(in_path:str) -> [str, str]:
+def get_id_names(in_path: str) -> [str, str]:
     climb_id = in_path.split("_")[0]
     run_id = in_path.split("_")[1]
     return climb_id, run_id
@@ -287,7 +274,7 @@ def get_id_names(in_path:str) -> [str, str]:
 
 def create_analysis_fields(
     record_id: str,
-    microbe: str, 
+    microbe: str,
     thresholds: dict,
     pipeline_info: dict,
     results: dict,  # Optional, needs to be a dictionary
@@ -309,6 +296,8 @@ def create_analysis_fields(
         onyx_analysis -- Class containing required fields for input to onyx analysis table
         exitcode -- Exit code for checks - will be 0 if all checks passed, 1 if any checks failed
     """
+    from onyx_analysis_helper import onyx_analysis_helper_functions as oa  # type: ignore
+    
     onyx_analysis = oa.OnyxAnalysis()
     onyx_analysis.add_analysis_details(
         analysis_name=f"gpha-mscape-orangebox-{microbe}-reclassification",
@@ -318,13 +307,13 @@ def create_analysis_fields(
     onyx_analysis.pipeline_name = pipeline_info["name"]
     onyx_analysis.pipeline_version = pipeline_info["version"]
     onyx_analysis.pipeline_url = pipeline_info["homePage"]
-    
+
     methods_fail = onyx_analysis.add_methods(methods_dict=thresholds)
     results_fail = onyx_analysis.add_results(top_result=headline_result, results_dict=results)
     onyx_analysis.add_server_records(sample_id=record_id, server_name=server)
     # output_fail = onyx_analysis.add_output_location(result_folder)
     required_field_fail, attribute_fail = onyx_analysis.check_analysis_object(publish_analysis=False)
-    
+
     # add in output fail to line below
     if any([methods_fail, results_fail, required_field_fail, attribute_fail]):
         logging.error("Incorrect attribute in analysis object, check logs for details")
@@ -352,7 +341,7 @@ def write_onxy_results_to_json(results_dict: dict, climb_id: str, microbe: str, 
     return result_file
 
 
-def sort_pipeline_info(pipeline_info:str, microbe:str)->dict:
+def sort_pipeline_info(pipeline_info: str, microbe: str) -> dict:
     pipeline_info_list = pipeline_info.split(",")
     try:
         pipeline_info_dict = {
@@ -367,24 +356,36 @@ def sort_pipeline_info(pipeline_info:str, microbe:str)->dict:
     return pipeline_info_dict
 
 
-def create_onyx_json(climb_id: str, run_id: str, microbe: str, fastq: str, report: str, results: str, results_json: str, results_json_summary: str, pipeline_info: str, publish: str, out_dir: str):
+def create_onyx_json(
+    climb_id: str,
+    run_id: str,
+    microbe: str,
+    fastq: str,
+    report: str,
+    results: str,
+    results_json: str,
+    results_json_summary: str,
+    pipeline_info: str,
+    publish: str,
+    out_dir: str,
+):
     # Convert JSON String to Python dict
     with Path(results_json).open() as json_file:
         results_json = json.load(json_file)
     with Path(results_json_summary).open() as json_file:
         results_json_summary = json.load(json_file)
 
-    pipeline_info_dict = sort_pipeline_info(pipeline_info=pipeline_info,
-                                            microbe=microbe)
+    pipeline_info_dict = sort_pipeline_info(pipeline_info=pipeline_info, microbe=microbe)
 
-    analysis_fields_dict, exitcode = create_analysis_fields(record_id=climb_id,
-                                                            microbe=microbe,
-                                                            thresholds="",
-                                                            pipeline_info=pipeline_info_dict,
-                                                            results=results_json,  # Optional, needs to be a dictionary
-                                                            server="mscape",
-                                                            headline_result=results_json_summary,  # Required
-                                                            result_folder="",
-                                                            publish_analysis=publish)
+    analysis_fields_dict, exitcode = create_analysis_fields(
+        record_id=climb_id,
+        microbe=microbe,
+        thresholds="",
+        pipeline_info=pipeline_info_dict,
+        results=results_json,  # Optional, needs to be a dictionary
+        server="mscape",
+        headline_result=results_json_summary,  # Required
+        result_folder="",
+        publish_analysis=publish,
+    )
     analysis_fields_dict.write_analysis_to_json(f"{out_dir}/{climb_id}.{microbe}_reclassification.analysis_fields.json")
-    
