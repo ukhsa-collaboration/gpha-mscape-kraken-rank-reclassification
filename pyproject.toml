@@ -1,14 +1,21 @@
-[project] # Update all fields in this section
-name = "mscape_template"  # Change this to your package - it must match module name in src
+[project]
+name = "detect_rank"
 dynamic = ["version"]  # Change the version in __init__.py in the package directory.
-description = "Short description here"
-authors = [{name = "Author name", email = "email.address@example.com"}]
+description = "mSCAPE, Kraken2 classification for x rank with ONYX integration"
+authors = [{name = "Mike Brown", email = "michael.d.brown@ukhsa.gov.uk"}]
 requires-python = ">=3.12"
 # Pin versions of possibly unstable dependencies or packages (especially internal)
-dependencies = ["pandas", "pyyaml", "climb-onyx-client"]  
+dependencies = [
+    "pandas>=3", 
+    "pyyaml", 
+    "typer",
+    "climb-onyx-client",
+    "onyx-analysis-helper@git+https://github.com/ukhsa-collaboration/onyx-analysis-helper.git@v0.6.7", 
+    "taxaplease @ git+https://github.com/ukhsa-collaboration/gpha-mscape-taxaplease.git@v2.5.2"
+    ]  
 
 [tool.setuptools.dynamic]
-version = {attr = "mscape_template.__version__"} # Add package name here to get version
+version = {attr = "reclassification.data_reformatting.__version__"} # Add package name here to get version
 
 [project.optional-dependencies] # Dependencies for developers only - add more if required
 dev = ["ruff", "pytest", "pre-commit"]
@@ -18,7 +25,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project.scripts] # Update with main repo script here
-qc_sample = "mscape_template.mscape_script:main"
+classify = "reclassification.cli:app"
 
 [tool.ruff.lint] # Lint rules to follow - add or delete if required
 select = [
