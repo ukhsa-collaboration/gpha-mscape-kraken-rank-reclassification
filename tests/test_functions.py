@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest  # noqa: F401
 from mscape_template import mscape_functions as mf  # noqa: F401
 
-from reclassification.data_reformatting import load_report, search_rank, which_microbe
+from reclassification.data_reformatting import load_report, search_rank
 
 TEST_DATA = Path(__file__).parent / "data"
 
