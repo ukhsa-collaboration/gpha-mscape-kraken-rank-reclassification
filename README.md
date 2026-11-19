@@ -31,7 +31,8 @@
 ## Features
 
 - aggregate-results function
-- detect-rank function
+  - produces Scylla formatted json of Kraken report
+- run-reclassification function
   - uses TaxaPlease to search for microorganism family in Kraken report file
 
 ---
@@ -39,8 +40,8 @@
 ## Requirements
 >
 > [!Warning]
-> To run (as part of mSCAPE pipelines) it is necessary to have obtained: <br>
-> Access to BRYN <br>
+> TaxaPlease database
+> NCBI taxonkit database
 ---
 
 ## Install
@@ -53,8 +54,8 @@
 ```bash
 git clone git@github.com:ukhsa-collaboration/gpha-mscape-kraken-rank-reclassification.git
 cd gpha-mscape-kraken-rank-reclassification
-conda create -n kraken-reports
-conda activate kraken-reports
+conda create -n k-squared
+conda activate k-squared
 pip install .
 mamba install -c bioconda taxonkit
 ```
@@ -76,13 +77,13 @@ mamba install -c bioconda taxonkit
 - For Family Search:
 
 ```bash
-classify run-reclassification --sample-id <id/prefix> --report <path-to-kraken_report.txt> --results <path-to-kraken_results.txt> --database <path-to-taxaplease-database/taxa.db> --out-dir <save-directory> --family <archaea/bacteria/fungi/protozoa/virus> 
+classify run-reclassification --sample-id <id/prefix> --report <path-to-kraken_report.txt> --results <path-to-kraken_results.txt> --out-dir <save-directory> --microbe <archaea/bacteria/fungi/protozoa/virus> --tp_database <path-to-taxaplease-database/taxa.db> --ncbi_database <path-to-NCBI-database> --publish <currently not fully functional required for pushing to onyx>
 ```
 
 - For Scylla formatted json:
 
 ```bash
-find-rank aggregate-results --sample-id <id/prefix> --lineages <path-to-modified_report_lineages.txt> --bracken <path-to-modified_report_taxacounts.txt> --report <path-to-kraken_report.txt --out-dir <save-directory>
+classify aggregate-results --sample-id <id/prefix> --lineages <path-to-modified_report_lineages.txt> --bracken <path-to-modified_report_taxacounts.txt> --report <path-to-kraken_report.txt --out-dir <save-directory>
 ```
 
 > [!Note]
@@ -120,8 +121,6 @@ find-rank aggregate-results --sample-id <id/prefix> --lineages <path-to-modified
 
 > [!Important]
 > Make sure to activate the correct environment to avoid errors <br>
-> Make sure all paths are entered correctly (Note. as of version 0.1.0 there is no config validation function/s) <br>
-> Make sure to see notes on how to obtain lineages.txt and taxacounts.txt
 
 ---
 
