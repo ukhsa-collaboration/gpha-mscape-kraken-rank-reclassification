@@ -3,7 +3,7 @@ name = "detect_rank"
 dynamic = ["version"]  # Change the version in __init__.py in the package directory.
 description = "mSCAPE, Kraken2 classification for x rank with ONYX integration"
 authors = [{name = "Mike Brown", email = "michael.d.brown@ukhsa.gov.uk"}]
-requires-python = ">=3.14"
+requires-python = ">=3.12"
 # Pin versions of possibly unstable dependencies or packages (especially internal)
 dependencies = [
     "pandas>=3", 
