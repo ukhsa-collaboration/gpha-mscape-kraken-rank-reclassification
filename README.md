@@ -95,13 +95,13 @@ mamba install -c bioconda taxonkit
 - For Family Search:
 
 ```bash
-classify run-reclassification --sample-id <id/prefix> --report <path-to-kraken_report.txt> --results <path-to-kraken_results.txt> --out-dir <save-directory> --microbe <archaea/bacteria/fungi/protozoa/virus> --tp_database <path-to-taxaplease-database/taxa.db> --ncbi_database <path-to-NCBI-database> --publish <currently not fully functional required for pushing to onyx>
+classify run-reclassification --sample-id <id/prefix> --report <path-to-kraken_report.txt> --results <path-to-kraken_results.txt> --out-dir <save-directory> --microbe <archaea/bacteria/fungi/protozoa/virus> --tp_database <path-to-taxaplease-database/taxa.db> --ncbi-database <path-to-NCBI-database> --publish <currently not fully functional required for pushing to onyx>
 ```
 
 - For Scylla formatted json:
 
 ```bash
-classify aggregate-results --sample-id <id/prefix> --lineages <path-to-modified_report_lineages.txt> --bracken <path-to-modified_report_taxacounts.txt> --report <path-to-kraken_report.txt --out-dir <save-directory>
+classify aggregate-results --sample-id <id/prefix> --lineages <path-to-modified-report-lineages.txt> --bracken <path-to-modified-report-taxacounts.txt> --report <path-to-kraken-report.txt --out-dir <save-directory>
 ```
 
 > [!Note]
