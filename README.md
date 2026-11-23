@@ -41,15 +41,32 @@
 >
 > [!Warning]
 > TaxaPlease database  
-> NCBI taxonkit database
+>
+> - To acquire the TaxaPlease database, run the install and the default database is located
+>
+> ```bash
+> ~/.taxaplease/taxa.db
+> ```
+>
+> - For more information on using custom databases with TaxaPlease refer to https://ukhsa-collaboration.github.io/gpha-mscape-taxaplease/build/html/user_guide.html#using-a-local-dump-of-the-ncbi-taxonomy-database
+>
+> NCBI taxonkit database  
+>
+> - To download the NCBI taxonkit dataset, Run: (taken from https://bioinf.shenwei.me/taxonkit/)
+>
+> ```bash
+> wget -c https://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz 
+> tar -zxvf taxdump.tar.gz
+>
+> mkdir -p $HOME/.taxonkit
+> cp names.dmp nodes.dmp delnodes.dmp merged.dmp $HOME/.taxonkit
+> ```
+
 ---
 
 ## Install
 
-- Login to BRYN
-- Start a terminal session
-- Navigate to desired parent directory
-- Run:
+- To install, Run:
 
 ```bash
 git clone git@github.com:ukhsa-collaboration/gpha-mscape-kraken-rank-reclassification.git
@@ -66,6 +83,7 @@ mamba install -c bioconda taxonkit
 > ```bash
 > pip install --editable '.[dev]'
 > ```
+
 
 ---
 
