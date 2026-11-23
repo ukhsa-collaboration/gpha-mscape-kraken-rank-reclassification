@@ -98,23 +98,6 @@ mamba install -c bioconda taxonkit
 classify run-reclassification --sample-id <id/prefix> --report <path-to-kraken_report.txt> --results <path-to-kraken_results.txt> --out-dir <save-directory> --microbe <archaea/bacteria/fungi/protozoa/virus> --tp_database <path-to-taxaplease-database/taxa.db> --ncbi-database <path-to-NCBI-database> --publish <currently not fully functional required for pushing to onyx>
 ```
 
-- For Scylla formatted json:
-
-```bash
-classify aggregate-results --sample-id <id/prefix> --lineages <path-to-modified-report-lineages.txt> --bracken <path-to-modified-report-taxacounts.txt> --report <path-to-kraken-report.txt --out-dir <save-directory>
-```
-
-> [!Note]
-> To obtain lineages.txt and taxacounts.txt
->
-> ```bash
-> cat "${kraken_report}" | cut -f5,3 | tail -n+3 > "_taxacounts.txt"
-> cat "${kraken_report}" | cut -f5 | tail -n+3 > "_taxa.txt"
-> taxonkit lineage --data-dir "${db_path}" -R "_taxa.txt"  > "_lineages.txt"
-> ```
->
-> where db_path is the path to NCBI Taxonomy dump files
-
 ### Commands
 
 > [!Note]
