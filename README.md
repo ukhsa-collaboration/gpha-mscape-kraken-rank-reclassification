@@ -40,7 +40,7 @@
 ## Requirements
 >
 > [!Warning]
-> TaxaPlease database
+> TaxaPlease database  
 > NCBI taxonkit database
 ---
 
