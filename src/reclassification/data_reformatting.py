@@ -340,7 +340,7 @@ def write_onxy_results_to_json(results_dict: dict, climb_id: str, microbe: str, 
     return result_file
 
 
-def make_pipeline_dict(pipeline_str: str) -> dict:
+def make_pipeline_dict(pipeline_list: str) -> dict:
     """Create dict of pipeline info from input pipeline info string.
     Arguments:
         pipeline_str -- Comma separated string of pipeline info in format
@@ -349,7 +349,7 @@ def make_pipeline_dict(pipeline_str: str) -> dict:
         pipeline_dict -- Dictionary containing pipeline information
     """
 
-    pipeline_list = pipeline_str.split(",")
+    # pipeline_list = pipeline_str.split(",")
     pipeline_dict = {
         "name": pipeline_list[0],
         "version": pipeline_list[1],
@@ -390,7 +390,7 @@ def create_onyx_json(
     with Path(results_json_summary).open() as json_file:
         results_json_summary = json.load(json_file)
 
-    pipeline_info_dict = make_pipeline_dict(pipeline_str=pipeline_info) #sort_pipeline_info(pipeline_info=pipeline_info, microbe=microbe)
+    pipeline_info_dict = make_pipeline_dict(pipeline_list=pipeline_info) #sort_pipeline_info(pipeline_info=pipeline_info, microbe=microbe)
 
     analysis_fields_dict, exitcode = create_analysis_fields(
         record_id=climb_id,
