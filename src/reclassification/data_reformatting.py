@@ -281,7 +281,6 @@ def create_analysis_fields(
     server: str,
     headline_result: str,  # Required
     result_folder: Path,
-    publish_analysis: str,
 ) -> dict:
     """Set up fields dictionary used to populate analysis table containing
     QC metrics.
@@ -366,7 +365,6 @@ def create_onyx_json(
     results_json: str,
     results_json_summary: str,
     pipeline_info: str,
-    publish: str,
     out_dir: str,
 ):
     # Convert JSON String to Python dict
@@ -386,6 +384,5 @@ def create_onyx_json(
         server="mscape",
         headline_result=results_json_summary,  # Required
         result_folder="",
-        publish_analysis=publish,
     )
     analysis_fields_dict.write_analysis_to_json(f"{out_dir}/{climb_id}.{microbe}_reclassification.analysis_fields.json")
