@@ -14,7 +14,7 @@ def normalize_choice(value: str) -> str:
     return value.strip().lower().capitalize()
 
 
-class Env(StrEnum):
+class Server(StrEnum):
     DEVSCAPE = "devscape"
     MSCAPE = "mscape"
     SYNTHSCAPE = "synthscape"
@@ -40,15 +40,14 @@ def set_up_logger(stdout_file):
 
 @app.command("run-reclassification")
 def run_reclassification(
-    env: Env = Env.DEVSCAPE,
     sample_id: str = typer.Option(..., help="Sequence sample ID", exists=True),
     report: str = typer.Option(..., help="Path to Kraken2 reports file", exists=True),
     results: str = typer.Option(..., help="Path to Kraken2 results file", exists=True),
     microbe: str = typer.Option(..., help="Microbe to search for", exists=True, callback=normalize_choice),
     pipeline_info: str = typer.Option(..., help="Comma separated str in format: 'pipeline name, version, homepage'", exists=True),
+    server: Server = Server.DEVSCAPE,
     tp_database: str = typer.Option(..., help="Path to the TaxaPlease database", exists=True),
     ncbi_database: str = typer.Option(..., help="Path to the NCBI taxonomy directory.", exists=True),
-    # server: str = typer.Option(..., help="what server is this being run on: mscape, synthscape, devscape", exists=True),
     out_dir: str = typer.Option(..., help="Path to the output directory", exists=False),
 ):
 
@@ -85,6 +84,7 @@ def run_reclassification(
         results_json=scylla_json,
         results_json_summary=detection_json,
         pipeline_info="",
+        server=server,
         out_dir=out_dir,
     )
 

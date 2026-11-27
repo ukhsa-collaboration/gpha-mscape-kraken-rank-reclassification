@@ -364,6 +364,7 @@ def create_onyx_json(
     results_json: str,
     results_json_summary: str,
     pipeline_info: str,
+    server: str,
     out_dir: str,
 ):
     # Convert JSON String to Python dict
@@ -380,7 +381,7 @@ def create_onyx_json(
         thresholds="",
         pipeline_info=pipeline_info_dict,
         results=results_json,  # Optional, needs to be a dictionary
-        server="mscape",
+        server=server,
         headline_result=results_json_summary,  # Required
         result_folder="",
     )
