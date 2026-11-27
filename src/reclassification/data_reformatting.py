@@ -101,7 +101,7 @@ def reformat_kraken_report(sample_id: str, kraken_report: str, database_path: st
     taxa_counts_file = out_dir / f"{sample_id}_taxacounts.txt"
     lineages_file = out_dir / f"{sample_id}_lineages.txt"
 
-    bracken_counts: dict[str, int] = {}
+    taxa_counts: dict[str, int] = {}
 
     with (
         Path(kraken_report).open() as in_file,
@@ -120,7 +120,7 @@ def reformat_kraken_report(sample_id: str, kraken_report: str, database_path: st
             taxid = fields[4]
             count = fields[2]
 
-            bracken_counts[taxid] = int(count)
+            taxa_counts[taxid] = int(count)
             counts_out.write(f"{count}\t{taxid}\n")
             # counts_out.write(f"{taxid}\t{count}\n")
             taxa_out.write(f"{taxid}\n")
@@ -182,12 +182,12 @@ def update_or_create_unclassified(entries, unclassified_count):
     return entries
 
 
-def update_or_create_count(entry, entries, bracken_counts):
+def update_or_create_count(entry, entries, taxa_counts):
     """Increment lineage counts given entries."""
     taxid, lineage, ranks = entry.rstrip().split("\t")
     lineage_split = lineage.split(";")
     ranks_split = ranks.split(";")
-    count = int(bracken_counts[taxid])
+    count = int(taxa_counts[taxid])
 
     previous = entries
     previous_rank = None
@@ -222,24 +222,24 @@ def yield_entries(entries, total, indent=0):
 
 def create_aggregate(sample_id: str, report: str, database_path: str, out_dir: str):
 
-    bracken, taxa, lineages = reformat_kraken_report(
+    reformed_kraken, taxa, lineages = reformat_kraken_report(
         sample_id=sample_id, kraken_report=report, database_path=database_path, out_dir=out_dir
     )
 
     """Run lineage aggregation algorithm."""
-    bracken_counts = {}
+    taxa_counts = {}
     entries = {}
     total = 0
-    with Path(bracken).open() as f:
-        bracken = f.readlines()
-    if len(bracken) > 0:
-        for i in bracken:
-            bracken_counts[i.split()[1]] = i.split()[0]
+    with Path(reformed_kraken).open() as f:
+        reformed_kraken = f.readlines()
+    if len(reformed_kraken) > 0:
+        for i in reformed_kraken:
+            taxa_counts[i.split()[1]] = i.split()[0]
         with Path(lineages).open() as f:
             in_file = f.readlines()
         for line in in_file:
             try:
-                entries = update_or_create_count(line, entries, bracken_counts)
+                entries = update_or_create_count(line, entries, taxa_counts)
                 total += 1
             except ValueError:
                 sys.stderr.write(f"""Lineage for tax id {str(line)} not found in taxonomy database""")
