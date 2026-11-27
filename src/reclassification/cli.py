@@ -1,6 +1,6 @@
 import logging
+from enum import Enum, StrEnum
 from pathlib import Path
-from typing import Annotated, Literal
 
 import typer
 from taxaplease.taxaplease import TaxaPlease
@@ -12,6 +12,12 @@ app = typer.Typer(name="Kraken2 reclassification", help="Kraken2 output creation
 
 def normalize_choice(value: str) -> str:
     return value.strip().lower().capitalize()
+
+
+class Env(StrEnum):
+    DEVSCAPE = "devscape"
+    MSCAPE = "mscape"
+    SYNTHSCAPE = "synthscape"
 
 
 # Logger set up
@@ -34,7 +40,7 @@ def set_up_logger(stdout_file):
 
 @app.command("run-reclassification")
 def run_reclassification(
-    env: Annotated[Literal["devscape", "mscape", "synthscape"], typer.Argument()],
+    env: Env = Env.DEVSCAPE,
     sample_id: str = typer.Option(..., help="Sequence sample ID", exists=True),
     report: str = typer.Option(..., help="Path to Kraken2 reports file", exists=True),
     results: str = typer.Option(..., help="Path to Kraken2 results file", exists=True),
