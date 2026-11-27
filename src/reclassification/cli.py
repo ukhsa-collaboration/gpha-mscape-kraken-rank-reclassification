@@ -85,7 +85,7 @@ def run_reclassification(
         results=results,
         results_json=scylla_json,
         results_json_summary=detection_json,
-        pipeline_info="",
+        pipeline_info=pipeline_info,
         server=server,
         out_dir=out_dir,
     )
