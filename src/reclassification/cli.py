@@ -1,5 +1,6 @@
 import logging
 from pathlib import Path
+from typing import Annotated, Literal
 
 import typer
 from taxaplease.taxaplease import TaxaPlease
@@ -33,12 +34,15 @@ def set_up_logger(stdout_file):
 
 @app.command("run-reclassification")
 def run_reclassification(
+    env: Annotated[Literal["devscape", "mscape", "synthscape"], typer.Argument()],
     sample_id: str = typer.Option(..., help="Sequence sample ID", exists=True),
     report: str = typer.Option(..., help="Path to Kraken2 reports file", exists=True),
     results: str = typer.Option(..., help="Path to Kraken2 results file", exists=True),
     microbe: str = typer.Option(..., help="Microbe to search for", exists=True, callback=normalize_choice),
+    pipeline_info: str = typer.Option(..., help="Comma separated str in format: 'pipeline name, version, homepage'", exists=True),
     tp_database: str = typer.Option(..., help="Path to the TaxaPlease database", exists=True),
     ncbi_database: str = typer.Option(..., help="Path to the NCBI taxonomy directory.", exists=True),
+    # server: str = typer.Option(..., help="what server is this being run on: mscape, synthscape, devscape", exists=True),
     out_dir: str = typer.Option(..., help="Path to the output directory", exists=False),
 ):
 
