@@ -1,6 +1,16 @@
-mSCAPE Template - Version 0.2.0
-Now has added features:
-- updated the pre-commit config to implement search for climb IDs on commit.
-- added branch protection json
-- dynamic versioning through version set in __init__.py in package directory and set in pyproject.toml
-- removed fixed versions of ruff so the version should match the GitHub actions.
+# GPHA mSCAPE Kraken Rank Reclassification
+
+13.11.2026
+
+Version: 1.0.1
+
+About: takes in Kraken report (and reformated report) files and creates collapsible json files for mSCAPE:
+
+1. copy of Scylla reporting
+2. cropped rank search presence
+
+Features:
+
+- aggregate-results function
+- detect-rank function
+  - uses TaxaPlease to search for microorganism family in Kraken report file

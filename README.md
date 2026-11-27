@@ -1,69 +1,140 @@
-# mscape-template
+# <img src="assests/UKHSA_Logo.png" width="75" alt="UKHSA Logo"> GPHA mSCAPE Kraken Rank Classification
 
-This repository is a template for creating new repositories containing code that 
-will run on mSCAPE. It serves as a guide for code layout and files will need 
-amending to fit the repo purpose.
+## Table of Contents
 
-There is guidance documentation including SOPs that contain further information on required repository
-structure, development cycles, and making pull requests. Please read
-this guidance documentation before using the template.
+- [ GPHA mSCAPE Kraken Rank Classification](#-gpha-mscape-kraken-rank-classification)
+  - [Table of Contents](#table-of-contents)
+  - [Info](#info)
+  - [Features](#features)
+  - [Requirements](#requirements)
+  - [Install](#install)
+  - [Usage](#usage)
+    - [To run the application](#to-run-the-application)
+    - [Commands](#commands)
+  - [Troubleshooting](#troubleshooting)
+  - [Change-log](#change-log)
+  - [To-do](#to-do)
 
-Below the dashed line is a README template to be edited.
+---
 
----------------------
-# Project or Repo Name
+## Info
 
-Brief description of project here
+| Name         | mSCAPE-Kraken-Rank-Reclassification                                                 |
+|--------------|-------------------------------------------------------------------------------------|
+| Version      | 1.0.1                                                                               |
+| Last Updated | 13.11.2026                                                                          |
+| Author(s)    | GPHA                                                                                |
+| Summary      | Search Kraken output reports.txt for microbe and reformat to match Syclla reporting |
 
-## Installation
+---
 
-Add installation instructions here. Ideally include commands to make
-the process as easy as possible for users.
+## Features
 
-Clone repo and create environment:
+- aggregate-results function
+  - produces Scylla formatted json of Kraken report
+- run-reclassification function
+  - uses TaxaPlease to search for microorganism family in Kraken report file
 
-`git clone git@github.com:ukhsa-collaboration/project-name.git`
+---
 
-`conda env create -n project-name `
+## Requirements
+>
+> [!Warning]
+> TaxaPlease database  
+>
+> - To acquire the TaxaPlease database, run the install and the default database is located
+>
+> ```bash
+> ~/.taxaplease/taxa.db
+> ```
+>
+> - For more information on using custom databases with TaxaPlease refer to https://ukhsa-collaboration.github.io/gpha-mscape-taxaplease/build/html/user_guide.html#using-a-local-dump-of-the-ncbi-taxonomy-database
+>
+> NCBI taxonkit database  
+>
+> - To download the NCBI taxonkit dataset, Run: (taken from https://bioinf.shenwei.me/taxonkit/)
+>
+> ```bash
+> wget -c https://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz 
+> tar -zxvf taxdump.tar.gz
+>
+> mkdir -p $HOME/.taxonkit
+> cp names.dmp nodes.dmp delnodes.dmp merged.dmp $HOME/.taxonkit
+> ```
 
-`conda activate project-name`
+---
 
-Installation for users: 
+## Install
 
-`cd project-name`
+- To install, Run:
 
-`pip install .`
+```bash
+git clone git@github.com:ukhsa-collaboration/gpha-mscape-kraken-rank-reclassification.git
+cd gpha-mscape-kraken-rank-reclassification
+conda create -n k-squared
+conda activate k-squared
+pip install .
+mamba install -c bioconda taxonkit
+```
 
-Installation for developers (installs code in editable mode): 
+> [!Tip]
+> To run in developer mode:
+>
+> ```bash
+> pip install --editable '.[dev]'
+> ```
 
-`cd project-name`
 
-`pip install --editable '.[dev]'`
+---
 
 ## Usage
 
-Include command line arguments (e.g. the output displayed when using -h)
-for reference. Example commands can also be helpful.
+### To run the application
 
+- Activate the environment
+- For Family Search:
+
+```bash
+classify run-reclassification --sample-id <id/prefix> --report <path-to-kraken_report.txt> --results <path-to-kraken_results.txt> --out-dir <save-directory> --microbe <archaea/bacteria/fungi/protozoa/virus> --tp_database <path-to-taxaplease-database/taxa.db> --ncbi-database <path-to-NCBI-database> --publish <currently not fully functional required for pushing to onyx>
 ```
-project-name --input <path> --output <path>
-```
 
-## Inputs (optional - useful if you have a CLI)
+### Commands
 
-You may wish to use a table to list out the args:
+> [!Note]
+> To view commands --help/-h
 
-| Argument | Required | Description |
-| -------- | ------- | ------- |
-| --input, -i | Yes | Input for command line use  |
-| --output, -o | Yes | Output for command line use  |
+| Argument | Required | Description | Default |
+| -------- | ------- | ------- | ----- |
+| find-rank | No | select family search  | n/a |
+| aggregate-results | No | select Scylla reformatting | n/a |
+| sample-id | Yes | ID of sample (prefix of output files) | n/a |
+| report | Yes | path to kraken report.txt file | n/a |
+| out-dir | Yes | path to the output save directory | n/a |
+| family | if find-rank | selection of family (archaea/bacteria/fungi/protozoa/virus) for filtering | n/a |
+| database | if find-rank | path to TaxaPlease database | n/a |
+| lineages | if aggregate-lineages | path to custom kraken report _lineages.txt | n/a |
+| bracken | if aggregate-lineages | path to custom kraken report _taxacounts.txt | n/a |
+| --help, -h | No | show the help message and exit | |
 
-## Outputs (optional - useful if your tool creates lots of output files)
+---
 
-Explain the output files in detail here.
+## Troubleshooting
 
-## Other sections
+> [!Important]
+> Make sure to activate the correct environment to avoid errors <br>
 
-Add other sections as appropriate for your repo. This may include
-instructions on updating the repo, instructions on adding new
-references, troubleshooting etc.
+---
+
+## Change-log
+
+See CHANGELOG.md
+
+---
+
+## To-do
+
+- [x] update feature section in README.md
+- [ ] \(Optional) add collapsing functionality to sections/components
+- [ ] \(Optional) task
+
+---
