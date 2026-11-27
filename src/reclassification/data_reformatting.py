@@ -349,11 +349,11 @@ def make_pipeline_dict(pipeline_str: str) -> dict:
         pipeline_dict -- Dictionary containing pipeline information
     """
 
-    pipeline_list = pipeline_str.split(",")
+    # pipeline_list = pipeline_str.split(",")
     pipeline_dict = {
-        "name": pipeline_list[0],
-        "version": pipeline_list[1],
-        "homePage": pipeline_list[2],
+        "name": pipeline_str[0],
+        "version": pipeline_str[1],
+        "homePage": pipeline_str[2],
     }
 
     return pipeline_dict
