@@ -359,7 +359,6 @@ def create_onyx_json(
     climb_id: str,
     run_id: str,
     microbe: str,
-    fastq: str,
     report: str,
     results: str,
     results_json: str,
