@@ -52,6 +52,7 @@ def run_reclassification(
     out_dir: str = typer.Option(..., help="Path to the output directory", exists=False),
 ):
 
+    print(pipeline_info)
     Path(out_dir).mkdir(parents=True, exist_ok=True)
     log_file = Path(f"{out_dir}/logfile.txt")
     set_up_logger(log_file)
